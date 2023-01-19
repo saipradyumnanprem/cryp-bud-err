@@ -1,0 +1,396 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.101.0">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbar-fixed/">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/jumbotron/">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/footers/">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>Crypto Tax</title>
+    <style>
+        .bg-primary{
+            background-color: #6370e8 !important;
+            border: #6370e8  !important;
+            color: #fff !important;
+        }
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+      }
+
+        @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+      }
+
+        .b-example-divider {
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+      }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+      }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+      }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+      }
+
+        .navbar .getstarted, .navbar .getstarted:focus {
+            padding: 8px 20px;
+            margin-left: 30px;
+            border-radius: 4px;
+            color: #fff;
+        }
+        .navbar a, .navbar a:focus {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0 10px 30px;
+            font-family: "Nunito", sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .navbar .name-tag{
+            font-size: 20px;
+        }
+
+        .feature-icon-small {
+            width: 3rem !important;
+            height: 3rem !important;
+        }
+        .accordion-button:not(.collapsed){
+          background-color:#343a40 !important;
+          color:#6370e8 !important;
+          border: 0 !important;
+        }
+        button:focus:not(:focus-visible) {
+          box-shadow:0 0 0 0;
+        }
+        .accordion-button:focus{
+          border:0 !important;
+        }
+        @media (width <= 400px){
+          .navbar{
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          .navbar .container-fluid{
+            --bs-gutter-x:1rem;
+          }
+          .navbar-toggler{
+            scale: 0.8;
+          }
+          .navbar li .getstarted{
+            display: none;
+          }
+          main .container{
+            margin: 0 !important;
+            padding:0 !important;
+            scale:0.85
+          }
+          main .container div{
+            padding-top:0 !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            
+          }
+        }
+    </style>
+</head>
+<body class="m-0 p-0">
+    <nav class="navbar navbar-expand-md  px-4 mx-5 pt-4 mb-5">
+        <div class="container-fluid">
+          <a class="navbar-brand offset-md-1 name-tag fs-3" href="{% url 'home_page' %}">
+            Crypto<span style="color:#eeba2b">₿</span>uddy
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse offset-md-4" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'news' %}">News</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">FAQ</a>
+              </li>
+              <li>
+                  <a class="getstarted scrollto bg-primary" href="{% url 'dashboard' %}">Get Started</a>
+                </li>
+            </ul>
+            <!--<form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>-->
+          </div>
+        </div>
+      </nav>
+    <main>
+        <div class="container py-1 mt-1">
+            <div class="px-5 py-3 mb-4 rounded-3">
+                <div class="row justify-content-around">
+                    <div class="container-fluid py-3 col-md-5 mr-6">
+                      <h1 class="display-5 fw-bold h1 py-2">Crypto tax reports in under 20 minutes</h1>
+                      <p class="col-md-12 fs-4 py-2">Crypto₿uddy calculates your cryptocurrency taxes and helps you reduce them for next year.<br/>Simple & Reliable.</p>
+                      <button class="btn bg-primary btn-lg py-2" type="button"><a href="{% url 'dashboard' %}" class="text-decoration-none" style="color:white">Calculate My Taxes <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                        <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                      </svg> </a></button>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="https://bootstrapmade.com/demo/templates/FlexStart/assets/img/hero-img.png" alt="" class="col-md-12" width="100%" height="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="container px-5 py-4" id="about">
+        <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-2 px-4 mb-5">
+          <div class="d-flex"> 
+              <img src="{% static '/img/about-dance.gif'%}" alt="" class="col-md-12" width="100%" height="100%">
+              <div class="d-flex flex-column align-items-start gap-3 ps-5 col-12 ms-1">
+                <h2>Feeling clueless?</h2>
+                          <div class="text">
+                              <p class="m-0 my-1">✅ Traded on lots of exchanges?</p>
+                              <p class="m-0 my-1">✅ Coins spread across multiple wallets?</p>
+                              <p class="m-0 my-1 mb-2">✅ No record of anything?</p>
+                              <p>We've been there too and that's why we built Koinly!</p>
+                              <p>No more wasting hours downloading CSV files, formatting data, figuring out market prices, getting the tax calculations right etc</p>
+                          </div>
+                <a href="{% url 'dashboard' %}" class="btn btn-dark btn-lg bg-primary">Get Started</a>
+              </div>
+          </div>
+        </div>
+        <div class="row row-cols-1 align-items-md-center g-5 py-2 px-4 pt-5 mt-3">
+          <div class="row row-cols-1 row-cols-sm-2 g-1 mt-3 ms-5">
+            <div class="d-flex flex-column gap-4">
+                <div class="d-inline-flex flex-row align-items-center">
+                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary fs-4 rounded-3 bg-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16" style="transform: scale(1.75,1.75);">
+                        <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
+                      </svg>
+                  </div>
+                  <h5 class="fw-semibold mb-0 p-2">Easily import your trades</h5>
+              </div>
+              <p class="text-muted">Add your exchange accounts via API or CSV files and connect your blockchain wallets using public addresses.</p>
+            </div>
+    
+            <div class="d-flex flex-column gap-4">
+                <div class="d-inline-flex flex-row align-items-center">
+                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary fs-4 rounded-3 bg-primary" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart" viewBox="0 0 16 16" style="transform: scale(1.75,1.75);">
+                        <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
+                      </svg>
+                  </div>
+                  <h5 class="fw-semibold mb-0 p-2">Preview your capital gains</h5>
+                </div>
+              <p class="text-muted">Get a glimpse of your profit/loss for any tax year - for free!</p>
+            </div>
+    
+            <div class="d-flex flex-column gap-4">
+                <div class="d-inline-flex flex-row align-items-center">
+                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary fs-4 rounded-3 bg-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16" style="transform: scale(1.75,1.75);">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                      </svg>
+                  </div>
+                  <h5 class="fw-semibold mb-0 p-2">Download your tax documents</h5>
+                </div>
+              <p class="text-muted">Whether you are filing yourself, using a tax software like TurboTax or working with an accountant. Koinly can generate the right crypto tax reports for you.</p>
+            </div>
+            <div class="d-flex flex-column gap-4">
+                <div class="d-inline-flex flex-row align-items-center">
+                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary fs-4 rounded-3 bg-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag-fill" viewBox="0 0 16 16" style="transform: scale(1.75,1.75);">
+                        <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                      </svg>
+                  </div>
+                  <h5 class="fw-semibold mb-0 p-2">Best Price</h5>
+                </div>
+              <p class="text-muted">Recommended which exchange provides the
+                best price for the different assets on real-time basis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section id="faq" class="container pt-3 py-5"> 
+
+        <div class="pt-4 w-90 pb-4">
+          <h1 class="text-center pb-2">Frequently Asked Questions</h1>
+        </div>
+      
+        <div class="accordion border-0 mt-1 px-5 mx-3" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header text-dark" id="headingOne">
+              <button class="accordion-button acc-col" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                How do cryptocurrency taxes work?
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>Crypto is taxed in the same way as Gold and real estate. When you sell or trade crypto you have to pay tax on the difference between the selling price and the price you bought it for (minus any exchange fees).
+                </strong> This is known as a Capital Gains Tax and has to be paid in most countries such as the USA, UK, Canada etc.
+                <span class="insti fw-bold">Crypto</span><span class="hunt fw-bold">Buddy</span>
+                , tries to provide gem of our services and let the user have a friendly experience.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed acc-col" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                I only made a loss on cryptocurrencies, do I still have to file taxes?
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>Yes. It doesn't matter if you only made losses, you still have to report it to your tax agency. In fact, it is in your best interests to report your losses as this is one of the best ways to reduce your crypto taxes in the future!</strong> <span class="insti fw-bold">Crypto</span><span class="hunt fw-bold">Buddy</span>, tries to provide gem of our services and let the user have a friendly experience.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed acc-col" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Are crypto to crypto trades taxed?
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>Yes. Any exchange of cryptocurrencies is also a taxable event. For ex. if you exchange Bitcoin for Ripple, the IRS and other tax agencies will treat this as a sale of Bitcoin at the market price of the XRP you received.</strong>He/She just need to login/signup to <span class="insti fw-bold">Crypto</span><span class="hunt fw-bold">Buddy.</span>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFour">
+              <button class="accordion-button collapsed acc-col" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                How are Mining, Staking & Hard Forks taxed?
+              </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>The same way as regular income using <span class="insti fw-bold">Crypto</span><span class="hunt fw-bold">Buddy</span>.</strong> For ex. if you receive 10 BCH as a result of the Bitcoin Cash fork then you will need to declare this as additional income, using the fair market value of the BCH at the time you received it.</div>
+          </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFive">
+              <button class="accordion-button collapsed acc-col" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                How can I avoid paying tax on my Bitcoin trades?
+              </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>It's actually very difficult to avoid crypto taxes. Every time you transfer funds to an exchange you are leaving a papertrail that tax agencies can catch on to. In the past, exchanges like Coinbase and eToro have handed over data on thousands of users to tax authorities.</strong></div>
+          </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingSix">
+              <button class="accordion-button collapsed acc-col" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                How can CryptoBuddy help?
+              </button>
+            </h2>
+            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>CryptoBuddy automatically imports your transactions, finds all the market prices at the time of your trades, matches transfers between your own wallets, calculates your crypto gains/losses and generates your tax reports!</strong></div>
+          </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingSeven">
+              <button class="accordion-button collapsed acc-col" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                Do I have to pay tax if I transfer crypto from one wallet to another?
+              </button>
+            </h2>
+            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>No, you don't. As long as you own both wallets there's no tax to pay on transfers. However, you still have to keep track of the original cost of the transferred coins and have sufficient proof of it.
+                </strong></div>
+          </div>
+        </div>
+      
+          </div>
+          </div></div></section>
+
+
+        <div class="container px-5 mt-5">
+            <footer class="p-5 pb-0">
+              <div class="row">
+                <div class="col-6">
+                    <img src="https://bootstrapmade.com/demo/templates/FlexStart/assets/img/features.png" alt="" class="col-md-12" width="100%" height="100%">
+                </div>
+                <div class="col-md-5 offset-md-1 mb-3">
+                  <form>
+                    <h5>Subscribe to our newsletter</h5>
+                    <p>Monthly digest of what's new and exciting from us.</p>
+                    <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                      <label for="newsletter1" class="visually-hidden">Email address</label>
+                      <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                      <button class="btn btn-primary bg-primary" type="button">Subscribe</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+                <p>&copy; 2022 <span style="color: #d40000;">Code</span>Genix, Inc. All rights reserved.</p>
+                <ul class="list-unstyled d-flex">
+                  <li class="ms-3"><a class="link-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
+                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+                  </svg></a></li>
+                  <li class="ms-3"><a class="link-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                  </svg></a></li>
+                  <li class="ms-3"><a class="link-dark" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-meta" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8.217 5.243C9.145 3.988 10.171 3 11.483 3 13.96 3 16 6.153 16.001 9.907c0 2.29-.986 3.725-2.757 3.725-1.543 0-2.395-.866-3.924-3.424l-.667-1.123-.118-.197a54.944 54.944 0 0 0-.53-.877l-1.178 2.08c-1.673 2.925-2.615 3.541-3.923 3.541C1.086 13.632 0 12.217 0 9.973 0 6.388 1.995 3 4.598 3c.319 0 .625.039.924.122.31.086.611.22.913.407.577.359 1.154.915 1.782 1.714Zm1.516 2.224c-.252-.41-.494-.787-.727-1.133L9 6.326c.845-1.305 1.543-1.954 2.372-1.954 1.723 0 3.102 2.537 3.102 5.653 0 1.188-.39 1.877-1.195 1.877-.773 0-1.142-.51-2.61-2.87l-.937-1.565ZM4.846 4.756c.725.1 1.385.634 2.34 2.001A212.13 212.13 0 0 0 5.551 9.3c-1.357 2.126-1.826 2.603-2.581 2.603-.777 0-1.24-.682-1.24-1.9 0-2.602 1.298-5.264 2.846-5.264.091 0 .181.006.27.018Z"/>
+                  </svg></a></li>
+                </ul>
+              </div>
+            </footer>
+        </div>     
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+</body>
+</html>
