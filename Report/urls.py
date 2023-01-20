@@ -7,6 +7,7 @@ urlpatterns = [
     path('temp/', views.temp,name='temp'),
     path('wallet/', views.wallet,name='wallet'),
     path('tax/', views.tax,name='tax'),
+    path('transactions/', views.transactions,name='transactions'),
     path('news/', views.news,name='news'),
     path('history/<str:coin_name>/', views.history,name='history'),
     path('coins/', views.list_of_coins,name='list_of_coins'),
@@ -18,4 +19,6 @@ urlpatterns = [
     path('best-cryptos/', views.bestCryptos,name='best-cryptos'),
     path('crypto-news/', views.crypto_news,name='crypto-news'),
     path('price-recommend/', views.price_recommend,name='price_recommend'),
+    path('transactions_data/', views.transactions_data,name='transactions_data'),
+
 ]

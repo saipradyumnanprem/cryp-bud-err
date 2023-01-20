@@ -32,6 +32,29 @@ def temp(request):
 def wallet(request):
     return render(request,"Report/wallet.html")
 
+def transactions(request):
+    transactions_client=Client(API_KEY,API_SECRET)
+    info = client.account_snapshot("SPOT")
+    info=info["snapshotVos"][2]["data"]["balances"]
+    transactions_data=[]
+    for symbol in info:
+        try:
+            try:
+                transactions_data.append(transactions_client.get_my_trades(symbol=symbol["asset"]+"USDT"))
+            except:
+                try:
+                    transactions_data.append(transactions_client.get_my_trades(symbol=symbol["asset"]))
+                except:
+                    continue
+            for data in transactions_data[-1]:
+                data['value']=float(data['qty'])*float(data['price'])
+        except:
+            print(symbol['asset'])
+    context={
+        'transactions_data':transactions_data
+    }
+    return render(request,"Report/transactions.html",context)
+
 def tax(request):
     return render(request,"Report/tax.html")
 
@@ -89,9 +112,6 @@ def test(request):
     
 def balances(request):
     info = client.account_snapshot("SPOT")["snapshotVos"][-2]["data"]["balances"]
-    #info=info["snapshotVos"][2]["data"]["balances"]
-    #trades = client.get_orders(symbol='BNB')
-    #print(trades)
     processed_info=[]
     for i in range(0,len(info)):
         data=info[i]
@@ -109,17 +129,7 @@ def balances(request):
                 data["original_Price"]=0
                 data["original_Value"]=0
                 data["ROI"]=round(((data["value"]-data["original_Value"]))*100,2)
-            #print(i,data)
-            #price=(lambda x:client.ticker_price(x+"USDT")["price"])(data["asset"])
-            #for price in price_of_coins:
-            #    if(price["coinName"]==data["asset"]):
-            #        data["value"]=float(data["free"])*float(price["price"])
-            #        break
-            #    else:
-            #        data["value"]=-1
             processed_info.append(data)
-    #print(processed_info)
-    #return JsonResponse({"1":str(type(info))},safe=False)
     return JsonResponse(processed_info,safe=False)
 
 
@@ -195,4 +205,12 @@ def price_recommend(request):
     print(btc_data["close"])
     return JsonResponse(btc_data,safe=False)
 
+def tax_calculation(request):
+    client=Client(API_KEY,API_SECRET)
+    trades = client.get_my_trades(symbol='BTCUSDT')
+    return JsonResponse(trades,safe=False)
 
+def transactions_data(request):
+    client=Client(API_KEY,API_SECRET)
+    transactions_data = client.get_my_trades(symbol='BTCUSDT')
+    return JsonResponse(transactions_data,safe=False)
