@@ -2,6 +2,7 @@ from concurrent.futures import process
 from django.http import HttpResponse
 from django.shortcuts import render
 from binance.spot import Spot
+from binance.client import Client
 from django.http import JsonResponse
 import requests
 from bs4 import BeautifulSoup
@@ -9,12 +10,13 @@ from sympy import round_two
 from Report.models import listOfCoins
 import json, requests
 import pandas as pd
-
+import os
 
 
 #from django.http import HttpResponse
 # Create your views here.
-
+API_KEY=os.environ.get('binance_api')
+API_SECRET=os.environ.get('binance_secret')
 
 client = Spot(API_KEY,API_SECRET)
 #client.API_URL = 'https://testnet.binance.vision/api'
@@ -81,12 +83,8 @@ def prices():
     return info
 
 def test(request):
-    trades = client.asset_dividend_record()
-    #trades=client.exchange_info()
-    #trades=[]
-    #exchange_info = client.exchange_info()
-    #for s in exchange_info['symbols']:
-    #    trades.append(s['symbol'])
+    test=Client(API_KEY,API_SECRET)
+    trades = test.get_my_trades(symbol='BTCUSDT')
     return JsonResponse(trades,safe=False)
     
 def balances(request):
@@ -197,4 +195,4 @@ def price_recommend(request):
     print(btc_data["close"])
     return JsonResponse(btc_data,safe=False)
 
-    
+
