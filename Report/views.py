@@ -11,6 +11,8 @@ from Report.models import listOfCoins
 import json, requests
 import pandas as pd
 import os
+from datetime import datetime
+
 
 
 #from django.http import HttpResponse
@@ -38,18 +40,25 @@ def transactions(request):
     info=info["snapshotVos"][2]["data"]["balances"]
     transactions_data=[]
     for symbol in info:
+        #try:
         try:
-            try:
-                transactions_data.append(transactions_client.get_my_trades(symbol=symbol["asset"]+"USDT"))
-            except:
-                try:
-                    transactions_data.append(transactions_client.get_my_trades(symbol=symbol["asset"]))
-                except:
-                    continue
-            for data in transactions_data[-1]:
-                data['value']=float(data['qty'])*float(data['price'])
+            transactions_data.append(transactions_client.get_my_trades(symbol=symbol["asset"]+"USDT"))
         except:
-            print(symbol['asset'])
+            try:
+                transactions_data.append(transactions_client.get_my_trades(symbol=symbol["asset"]))
+            except:
+                continue
+        for data in transactions_data[-1]:
+            data['value']=float(data['qty'])*float(data['price'])
+            data['buySell']="Buy" if(data['isBuyer']) else "Sell"
+            try:
+                data['time']=datetime.fromtimestamp(int(data['time'])/1000)
+                data['time']=data['time'].strftime("%Y-%m-%d %H:%M:%S")
+            except:
+                continue
+            #data['time']=data['time'].strftime("%Y-%m-%d %H:%M:%S")
+        #except:
+        #    print(symbol['asset'])
     context={
         'transactions_data':transactions_data
     }
@@ -156,11 +165,9 @@ def bestCryptos(request):
         coin_list = doc.find_all('tr')
         coin_list=list(coin_list)
         list_of_coins=[]
-        list_of_coins.append(str(coin_list[:11]))
-        list_of_coins.append(str(coin_list[11:22]))
-        list_of_coins.append(str(coin_list[22:33]))
-        list_of_coins.append(str(coin_list[33:44]))
-        list_of_coins.append(str(coin_list[44:55]))
+        list_of_coins.append(str(coin_list[:6]))
+        list_of_coins.append(str(coin_list[11:17]))
+        list_of_coins.append(str(coin_list[22:28]))
     except:
         coin_list=[]
     return JsonResponse(list_of_coins,safe=False)

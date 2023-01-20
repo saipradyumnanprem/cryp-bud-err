@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/css/splide.min.css">
 
     <style>
-        a{
+      a{
             text-decoration: none !important;
             color: black;
         }
@@ -57,7 +57,9 @@
         vertical-align: -.125em;
         fill: currentColor;
       }
-
+      .nav-item{
+        margin-bottom: 1%;
+      }
       .sidebar .nav-title {
         font-size: medium;
         font-weight: 500;
@@ -130,7 +132,7 @@
             </div>
           </li>
           <li>
-            <div class="nav-title ps-2 ms-1" aria-current="page">Menu</div>
+            <div class="nav-title ps-2 ms-1 mb-1" aria-current="page">Menu</div>
           </li>
           <li class="nav-item ps-2">
             <a class="nav-link text-white" aria-current="page" href="{% url 'dashboard' %}">
