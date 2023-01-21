@@ -12,13 +12,14 @@ import json, requests
 import pandas as pd
 import os
 from datetime import datetime
-
+from dotenv import load_dotenv
+load_dotenv()
 
 
 #from django.http import HttpResponse
 # Create your views here.
-API_KEY=os.environ.get('binance_api')
-API_SECRET=os.environ.get('binance_secret')
+API_KEY=os.environ['binance_api']
+API_SECRET=os.environ['binance_secret']
 
 client = Spot(API_KEY,API_SECRET)
 #client.API_URL = 'https://testnet.binance.vision/api'
