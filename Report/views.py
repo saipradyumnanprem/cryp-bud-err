@@ -1,3 +1,4 @@
+from . import utils as ut
 from concurrent.futures import process
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -14,6 +15,8 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
+from django.views.generic import View
+from django.template.loader import get_template
 
 
 #from django.http import HttpResponse
@@ -35,7 +38,8 @@ def temp(request):
 def wallet(request):
     return render(request,"Report/wallet.html")
 
-def transactions(request):
+
+def gettrans():
     transactions_client=Client(API_KEY,API_SECRET)
     info = client.account_snapshot("SPOT")
     info=info["snapshotVos"][2]["data"]["balances"]
@@ -57,13 +61,55 @@ def transactions(request):
                 data['time']=data['time'].strftime("%Y-%m-%d %H:%M:%S")
             except:
                 continue
-    context={
-        'transactions_data':transactions_data
+    return transactions_data
+
+def transactions(request):
+
+    transactions_data = gettrans()
+
+    context = {
+        'transactions_data': transactions_data
     }
-    return render(request,"Report/transactions.html",context)
+
+    return render(request, "Report/transactions.html", context)
+
 
 def tax(request):
-    return render(request,"Report/tax.html")
+
+    transactions_data = gettrans()
+
+    context = {
+        'transactions_data': transactions_data
+    }
+
+    return render(request, "Report/tax.html", context)
+
+class GeneratePDF(View):
+    def get(self, request, *args, **kwargs):
+        template = get_template('Report/taxreport.html')
+        transactions_data = gettrans()
+
+        context = {
+            'transactions_data': transactions_data
+        }
+
+        html = template.render(context)
+        pdf = ut.render_to_pdf('Report/taxreport.html', context)
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = "Invoice_%s.pdf" % ("12341231")
+            content = "inline; filename='%s'" % (filename)
+            download = request.GET.get("download")
+            if download:
+                content = "attachment; filename='%s'" % (filename)
+            response['Content-Disposition'] = content
+            return response
+        return HttpResponse("Not found")
+
+
+def gentaxreport(request):
+    p1 = GeneratePDF()
+    p1.get()
 
 def news(request):
     return render(request,"Report/crypto_news.html")
