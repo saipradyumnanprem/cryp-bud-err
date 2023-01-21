@@ -33,16 +33,48 @@
         <div class="">
             <img src="{% static '/img/crypt-buddy-bw.png' %}" width="250" height="50">
         </div>
-        <div class="text-center">
-            <p class="fs-3 pt-1 text-danger fw-semibold">TAX REPORT</p>
+        <div>
+            <img src="{% static '/img/codegenix.png' %}" width="250" height="50">
         </div>
     </div>
-    <div class="mt-2 d-flex gap-1">
-        <h3 class="text-black">Permanent Account Number (PAN): </h3>
-        <div class="bg-dark" style="width: 50%;">Value</div>
+
+    <div class="text-center">
+        <p class="fs-3 pt-1 fw-semibold" style="color: #d40000;">TAX REPORT</p>
     </div>
-    
+
+    <div class="row">
+
+        <div class="col mt-2 d-flex">
+            <h4 class="text-black">Permanent Account Number (PAN): </h4>
+        </div>
+        <div class="col pt-2">
+            <table class="table table-bordered text-dark fw-bold p-1 text-center" style="width: 75%;">
+                <tbody>
+                    <tr class="p-1" style="font-size: 0.75rem;">
+                        <td>G</td>
+                        <td>C</td>
+                        <td>I</td>
+                        <td>P</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>8</td>
+                        <td>9</td>
+                        <td>9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+
+
 </div>
+
+<button type="submit" onclick="get()" id="">Submit</button>
 
 
 {% endblock content%}
