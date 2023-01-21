@@ -199,15 +199,19 @@ def crypto_news(request):
 def price_recommend(request):
 
     base_url = "https://api.gemini.com/v1"
-    info=prices()
+    test=Client(API_KEY,API_SECRET)
+    binance_price = test.get_all_tickers()
+    print(binance_price)
+    
+    #info=prices()
 
     response = requests.get(base_url + "/symbols/details/BTCUSD")
-    symbols = response.json()
+    #symbols = response.json()
 
     base_url = "https://api.gemini.com/v2"
     response = requests.get(base_url + "/ticker/btcusd")
     btc_data = response.json()
-    print(btc_data["close"])
+    print(btc_data)
     return JsonResponse(btc_data,safe=False)
 
 def tax_calculation(request):

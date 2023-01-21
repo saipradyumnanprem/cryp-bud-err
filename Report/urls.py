@@ -18,7 +18,7 @@ urlpatterns = [
     path('exchanges/', views.exchanges,name='exchanges'),
     path('best-cryptos/', views.bestCryptos,name='best-cryptos'),
     path('crypto-news/', views.crypto_news,name='crypto-news'),
-    path('price-recommend/', views.price_recommend,name='price_recommend'),
+    path('price_recommend/', views.price_recommend,name='price_recommend'),
     path('transactions_data/', views.transactions_data,name='transactions_data'),
     path('tax_calculation/', views.tax_calculation,name='tax_calculation'),
 
