@@ -1,79 +1,84 @@
 {% extends "Report/base.html" %}
 {% block style %}
 <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    th, td {
-      padding: 8px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
 
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
 </style>
 
 {% endblock style %}
 
 {% block content%}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-4">
-    <h1 class="h2">Transactions</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
-          <button type="button" class="btn btn-sm btn-outline-secondary svg-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-              </svg>
-          </button>
-        </div>
+<div
+  class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-4">
+  <h1 class="h2">Transactions</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group me-2">
+      <button type="button" class="btn btn-sm btn-outline-secondary svg-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus"
+          viewBox="0 0 16 16">
+          <path
+            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+        </svg>
+      </button>
     </div>
+  </div>
 </div>
 <table class="mt-2">
-    <thead>
-      <tr>
-        <th>Trade ID</th>
-        <th>Symbol</th>
-        <th>Buy/Sell</th>
-        <th>Quantity</th>
-        <th>Price (USD)</th>
-        <th>Total Value (USD)</th>
-        <th>Date/Time</th>
-      </tr>
-    </thead>
-    <tbody id="transaction-data">
-      <!-- Data will be inserted here using JavaScript -->
-      {% for symbols in transactions_data %}
-        {% for data in symbols %}
-          <tr>
-            <th>{{ data.id}}</th>
-            <th>{{ data.symbol }}</th>
-            <th>{{ data.buySell }}</th>
-            <th>{{ data.qty }}</th>
-            <th>{{ data.price }}</th>
-            <th>{{ data.value }}</th>
-            <th>{{ data.time }}</th>
-          </tr>
-        {% endfor %}
+  <thead>
+    <tr class="bg-primary">
+      <th>Trade ID</th>
+      <th>Symbol</th>
+      <th>Buy/Sell</th>
+      <th>Quantity</th>
+      <th>Price (USD)</th>
+      <th>Total Value (USD)</th>
+      <th>Date/Time</th>
+    </tr>
+  </thead>
+  <tbody id="transaction-data">
+    <!-- Data will be inserted here using JavaScript -->
+    {% for symbols in transactions_data %}
+    {% for data in symbols %}
+    <tr>
+      <th>{{ data.id}}</th>
+      <th>{{ data.symbol }}</th>
+      <th>{{ data.buySell }}</th>
+      <th>{{ data.qty }}</th>
+      <th>{{ data.price }}</th>
+      <th>{{ data.value }}</th>
+      <th>{{ data.time }}</th>
+    </tr>
     {% endfor %}
-    </tbody>
-  </table>  
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock content%}
 
 {% block script%}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script>
-    fetch('http://127.0.0.1:8000/report/transactions_data/')
-        .then((r) => r.json())
-        .then((response) => {
-            console.log(response);
-            let newRow = document.createElement("tr");
-            let tradeIdCell = document.createElement("td");
-            let symbolCell = document.createElement("td");
-            tradeIdCell.textContent = tradeData.tradeId;
-            newRow.appendChild(tradeIdCell);
-        })
-    let nav_list=document.getElementsByClassName("nav");
-    let list_element=nav_list[0].getElementsByClassName("nav-item");
-    list_element[2].firstElementChild.classList.add("active");
+  fetch('http://127.0.0.1:8000/report/transactions_data/')
+    .then((r) => r.json())
+    .then((response) => {
+      console.log(response);
+      let newRow = document.createElement("tr");
+      let tradeIdCell = document.createElement("td");
+      let symbolCell = document.createElement("td");
+      tradeIdCell.textContent = tradeData.tradeId;
+      newRow.appendChild(tradeIdCell);
+    })
+  let nav_list = document.getElementsByClassName("nav");
+  let list_element = nav_list[0].getElementsByClassName("nav-item");
+  list_element[2].firstElementChild.classList.add("active");
 </script>
 {% endblock script%}
