@@ -43,10 +43,10 @@ def transactions(request):
     for symbol in info:
         #try:
         try:
-            transactions_data.append(transactions_client.get_my_trades(symbol=symbol["asset"]+"USDT"))
+            transactions_data.append(sorted(transactions_client.get_my_trades(symbol=symbol["asset"]+"USDT"), key=lambda trade: trade['time'],reverse=True))
         except:
             try:
-                transactions_data.append(transactions_client.get_my_trades(symbol=symbol["asset"]))
+                transactions_data.append(sorted(transactions_client.get_my_trades(symbol=symbol["asset"]), key=lambda trade: trade['time'],reverse=True))
             except:
                 continue
         for data in transactions_data[-1]:
@@ -57,9 +57,6 @@ def transactions(request):
                 data['time']=data['time'].strftime("%Y-%m-%d %H:%M:%S")
             except:
                 continue
-            #data['time']=data['time'].strftime("%Y-%m-%d %H:%M:%S")
-        #except:
-        #    print(symbol['asset'])
     context={
         'transactions_data':transactions_data
     }
@@ -215,10 +212,56 @@ def price_recommend(request):
 
 def tax_calculation(request):
     client=Client(API_KEY,API_SECRET)
+    from datetime import datetime, timedelta
+
     trades = client.get_my_trades(symbol='BTCUSDT')
-    return JsonResponse(trades,safe=False)
+
+    # Initialize variables to keep track of capital gains and losses
+    short_term_capital_gains = 0
+    long_term_capital_gains = 0
+    short_term_capital_losses = 0
+    long_term_capital_losses = 0
+
+    # Keep track of the purchase price and date of each coin
+    purchase_prices = {}
+    purchase_dates = {}
+
+    # Define the cutoff for short-term vs long-term gains
+    SHORT_TERM_CUTOFF = 365  # days
+
+    for trade in trades:
+        symbol = trade['symbol']
+        qty = float(trade['qty'])
+        price = float(trade['price'])
+        is_buyer = trade['isBuyer']
+        timestamp = trade['time']
+
+        # If the trade is a buy, update the purchase price and date for the coin
+        if is_buyer:
+            purchase_prices[symbol] = price
+            purchase_dates[symbol] = datetime.fromtimestamp(timestamp/1000)
+        else:
+            # If the trade is a sell, calculate the capital gain or loss
+            purchase_price = purchase_prices.get(symbol, 0)
+            purchase_date = purchase_dates.get(symbol, datetime.now())
+            gain_loss = (price - purchase_price) * qty
+            holding_period = (datetime.fromtimestamp(timestamp/1000) - purchase_date).days
+
+            if holding_period <= SHORT_TERM_CUTOFF:
+                if gain_loss > 0:
+                    short_term_capital_gains += gain_loss
+                else:
+                    short_term_capital_losses += gain_loss
+            else:
+                if gain_loss > 0:
+                    long_term_capital_gains += gain_loss
+                else:
+                    long_term_capital_losses += gain_loss
+    list1=[short_term_capital_gains,long_term_capital_gains,short_term_capital_losses,long_term_capital_losses]
+    return JsonResponse(list1,safe=False)
 
 def transactions_data(request):
     client=Client(API_KEY,API_SECRET)
     transactions_data = client.get_my_trades(symbol='BTCUSDT')
+    transactions_data = sorted(transactions_data, key=lambda trade: trade['time'],reverse=True)
     return JsonResponse(transactions_data,safe=False)
