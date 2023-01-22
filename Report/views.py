@@ -79,6 +79,8 @@ def transactions(request):
 
 def tax(request):
     return render(request, "Report/tax.html")
+def comparison(request):
+    return render(request,"Report\price comparison.html")
 
 class GeneratePDF(View):
     def get(self, request, *args, **kwargs):
