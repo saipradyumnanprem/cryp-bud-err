@@ -22,6 +22,7 @@ urlpatterns = [
     path('price_recommend/', views.price_recommend, name='price_recommend'),
     path('transactions_data/', views.transactions_data, name='transactions_data'),
     path('tax_calculation/', views.tax_calculation, name='tax_calculation'),
-    path('taxreport/', GeneratePDF.as_view(), name='tax_calculation'),
+    path('tax_report/', views.tax_report, name='tax_report'),
+    path('download_report/', views.download_report, name='download_report'),
 
 ]

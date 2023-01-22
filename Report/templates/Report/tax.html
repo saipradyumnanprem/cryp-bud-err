@@ -6,6 +6,10 @@
         text-decoration: none !important;
         color: black;
     }
+    .download:hover{
+        background-color: transparent !important;
+        color: var(--bs-danger) !important;
+    }
 </style>
 
 {% endblock style%}
@@ -17,64 +21,21 @@
     <h1 class="h2">Your Crypto Tax in India</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary svg-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                </svg>
-            </button>
+            <a href="{% url 'download_report' %}">
+                <button type="button" class="btn btn-sm btn-outline-secondary svg-btn border-0 fs-6 me-0 bg-danger text-white download">
+                    Download
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download ms-1" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                      </svg>
+                </button>
+            </a>
         </div>
     </div>
 </div>
 
-<div class="p-5 block bg-white text-black">
-    <div class="d-flex justify-content-between">
-        <div class="">
-            <img src="{% static '/img/crypt-buddy-bw.png' %}" width="250" height="50">
-        </div>
-        <div>
-            <img src="{% static '/img/codegenix.png' %}" width="250" height="50">
-        </div>
-    </div>
-
-    <div class="text-center">
-        <p class="fs-3 pt-1 fw-semibold" style="color: #d40000;">TAX REPORT</p>
-    </div>
-
-    <div class="row">
-
-        <div class="col mt-2 d-flex">
-            <h4 class="text-black">Permanent Account Number (PAN): </h4>
-        </div>
-        <div class="col pt-2">
-            <table class="table table-bordered text-dark fw-bold p-1 text-center" style="width: 75%;">
-                <tbody>
-                    <tr class="p-1" style="font-size: 0.75rem;">
-                        <td>G</td>
-                        <td>C</td>
-                        <td>I</td>
-                        <td>P</td>
-                        <td>2</td>
-                        <td>2</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>8</td>
-                        <td>9</td>
-                        <td>9</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-
-
-
-
-</div>
-
-<button type="submit" onclick="get()" id="">Submit</button>
+<!-- <iframe src="{% url 'tax_report' %}" title="Tax Report"></iframe> -->
+<div id="content"></div>
 
 
 {% endblock content%}
@@ -85,5 +46,10 @@
     let nav_list = document.getElementsByClassName("nav");
     let list_element = nav_list[0].getElementsByClassName("nav-item");
     list_element[3].firstElementChild.classList.add("active");
+    fetch(`{% url 'tax_report' %}`)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("content").innerHTML = data;
+        });
 </script>
 {% endblock script%}

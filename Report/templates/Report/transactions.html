@@ -32,7 +32,7 @@
     </div>
   </div>
 </div>
-<table class="mt-2">
+<table class="mt-2 table table-striped">
   <thead>
     <tr class="bg-primary">
       <th>Trade ID</th>
@@ -44,7 +44,7 @@
       <th>Date/Time</th>
     </tr>
   </thead>
-  <tbody id="transaction-data">
+  <tbody id="transaction-data" class="table-dark">
     <!-- Data will be inserted here using JavaScript -->
     {% for symbols in transactions_data %}
     {% for data in symbols %}

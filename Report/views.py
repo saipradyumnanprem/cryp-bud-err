@@ -75,14 +75,7 @@ def transactions(request):
 
 
 def tax(request):
-
-    transactions_data = gettrans()
-
-    context = {
-        'transactions_data': transactions_data
-    }
-
-    return render(request, "Report/tax.html", context)
+    return render(request, "Report/tax.html")
 
 class GeneratePDF(View):
     def get(self, request, *args, **kwargs):
@@ -106,10 +99,29 @@ class GeneratePDF(View):
             return response
         return HttpResponse("Not found")
 
+def tax_report(request):
+    #transactions_data = gettrans()
+    transactions_data=[]
 
-def gentaxreport(request):
-    p1 = GeneratePDF()
-    p1.get()
+    context = {
+        'transactions_data': transactions_data
+    }
+    return render(request, "Report/tax_report.html",context)
+
+def download_report(request):
+    template = get_template('Report/tax_report.html')
+
+    pdf = ut.render_to_pdf('Report/tax_report.html')
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Invoice_%s.pdf" % ("12341231")
+        content = "inline; filename='%s'" % (filename)
+        download = request.GET.get("download")
+        if download:
+            content = "attachment; filename='%s'" % (filename)
+        response['Content-Disposition'] = content
+        return response
+    return HttpResponse("Not found")
 
 def news(request):
     return render(request,"Report/crypto_news.html")

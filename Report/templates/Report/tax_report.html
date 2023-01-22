@@ -1,0 +1,246 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crypto₿uddy - Report</title>
+    <style>
+      .p-5 {
+          padding: 1.25rem;
+      }
+      .block {
+          display: block;
+      }
+      .bg-white {
+          background-color: white;
+      }
+      .text-black {
+          color: black;
+      }
+      .d-flex {
+          display: flex;
+      }
+      .justify-content-between {
+          justify-content: space-between;
+      }
+      .text-center {
+          text-align: center;
+      }
+      .fs-3 {
+          font-size: 1.5rem;
+      }
+      .pt-1 {
+          padding-top: 0.25rem;
+      }
+      .fw-semibold {
+          font-weight: 600;
+      }
+      .row {
+          display: flex;
+          flex-wrap: wrap;
+      }
+      .col {
+          flex-basis: 0;
+          flex-grow: 1;
+          max-width: 100%;
+      }
+      .mt-2 {
+          margin-top: 0.5rem;
+      }
+      .d-flex {
+          display: flex;
+      }
+      .gap-2 {
+          gap: 0.5rem;
+      }
+      .table {
+          width: 100%;
+          margin-bottom: 1rem;
+          color: #212529;
+      }
+      .table-bordered {
+          border: 1px solid #dee2e6;
+      }
+      .text-dark {
+          color: #343a40;
+      }
+      .fw-bold {
+          font-weight: bold;
+      }
+      .p-1 {
+          padding: 0.25rem;
+      }
+      .align-self-center {
+          align-self: center;
+      }
+      .text-center {
+          text-align: center;
+      }
+      .justify-content-end {
+          justify-content: flex-end;
+      }
+      .w-100 {
+          width: 100%;
+      }
+      .text-bg-light {
+          background-color: #f8f9fa;
+      }
+      .table {
+          width: 100%;
+          margin-bottom: 1rem;
+          color: #212529;
+      }
+      .mt-2 {
+          margin-top: 0rem;
+      }
+      .w-100 {
+          width: 100%;
+      }
+      .table {
+          width: 100%;
+          margin-bottom: 1rem;
+          color: #212529;
+      }
+      .thead-light {
+          color: #495057;
+          background-color: #e9ecef;
+          border-color: #dee2e6;
+      }
+      .bg-primary {
+          background-color: #007bff;
+      }
+  </style>
+</head>
+
+<body>
+
+  <div class="p-5 block bg-white text-black">
+    <div class="d-flex justify-content-between">
+        <!-- <div class="">
+            <img src="{% static '/img/crypt-buddy-bw.png' %}" width="250" height="50">
+        </div>
+        <div>
+            <img src="{% static '/img/codegenix.png' %}" width="250" height="50">
+        </div> -->
+    </div>
+
+    <div class="text-center">
+        <p class="fs-3 pt-1 fw-semibold" style="color: #d40000;">TAX REPORT</p>
+    </div>
+
+    <div class="row">
+        <div class="col mt-2 d-flex gap-2">
+            <h6 class="text-black">Aadhaar Number (12 digit): </h6>
+            <table class="table table-bordered text-dark fw-bold p-1 text-center align-self-center" style="width: 75%;">
+                <tbody>
+                    <tr class="p-1" style="font-size: 0.75rem;">
+                        <td>G</td><td>C</td>
+                        <td>I</td><td>P</td><td>2</td><td>2</td><td>4</td>
+                        <td>5</td><td>8</td><td>9</td><td>9</td><td>9</td><td>9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col mt-2 d-flex gap-2">
+            <h6 class="text-black">Full Name: </h6>
+            <table class="table table-bordered text-dark fw-bold p-1 text-center" style="width: 75%;">
+                <tbody>
+                    <tr class="p-1" style="font-size: 0.75rem;">
+                        <td>G</td><td>C</td>
+                        <td>I</td><td>P</td><td>2</td><td>2</td><td>4</td>
+                        <td>5</td><td>8</td><td>9</td><td>9</td><td>9</td><td>9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mt-2 d-flex gap-1">
+            <h6 class="text-black">Permanent Account Number (PAN): </h6>
+            <table class="table table-bordered text-dark fw-bold p-1 text-center justify-content-end" style="width: 70%;">
+                <tbody>
+                    <tr class="p-1" style="font-size: 0.75rem;">
+                        <td>G</td><td>C</td>
+                        <td>I</td><td>P</td><td>2</td><td>2</td><td>4</td>
+                        <td>5</td><td>8</td><td>9</td><td>9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-around">
+        <div class="col mt-2 d-flex gap-1">
+            <h6 class="text-black">Mobile Number:</h6>
+            <h6 class="text-black">123456789</h6>
+        </div>
+        <div class="col mt-2 d-flex gap-1">
+            <h6 class="text-black">Email Address:</h6>
+            <h6 class="text-black">cryptocurrency@gmail.com</h6>
+        </div>
+    </div>
+
+    <div class="w-100 text-bg-light">
+    <table class="mt-2 w-100 table">
+        <thead>
+          <tr class="bg-primary">
+            <th>Trade ID</th>
+            <th>Symbol</th>
+            <th>Buy/Sell</th>
+            <th>Quantity</th>
+            <th>Price (USD)</th>
+            <th>Total Value (USD)</th>
+            <th>Date/Time</th>
+          </tr>
+        </thead>
+        <tbody id="transaction-data">
+          <!-- Data will be inserted here using JavaScript -->
+          {% for symbols in transactions_data %}
+          {% for data in symbols %}
+          <tr class="text-bg-light bg-white">
+            <th>{{ data.id}}</th>
+            <th>{{ data.symbol }}</th>
+            <th>{{ data.buySell }}</th>
+            <th>{{ data.qty }}</th>
+            <th>{{ data.price }}</th>
+            <th>{{ data.value }}</th>
+            <th>{{ data.time }}</th>
+          </tr>
+          {% endfor %}
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+    <div class="row d-flex flex-column">
+        <div class="col mt-2 d-flex gap-1">
+            <h6 class="text-black">Short Term Capital Gains:</h6>
+            <h6 class="text-black">123456789</h6>
+        </div>
+        <div class="col mt-2 d-flex gap-1">
+            <h6 class="text-black">Long Term Capital Gains</h6>
+            <h6 class="text-black">cryptocurrency@gmail.com</h6>
+        </div>
+        <div class="col mt-2 d-flex gap-1">
+            <h6 class="text-black">Short Term Capital Losses</h6>
+            <h6 class="text-black">123456789</h6>
+        </div>
+        <div class="col mt-2 d-flex gap-1">
+            <h6 class="text-black">Long Term Capital Losses</h6>
+            <h6 class="text-black">cryptocurrency@gmail.com</h6>
+        </div>
+        <div class="col mt-2 d-flex gap-1">
+            <h6 class="text-black">Total Tax Liability</h6>
+            <h6 class="text-black">cryptocurrency@gmail.com</h6>
+        </div>
+    </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
