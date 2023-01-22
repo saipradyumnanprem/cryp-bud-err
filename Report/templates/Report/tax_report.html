@@ -6,111 +6,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Crypto₿uddy - Report</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
     <style>
-    .p-5 {
-          padding: 1.25rem;
-      }
-      .block {
-          display: block;
-      }
-      .bg-white {
-          background-color: white;
-      }
-      .text-black {
-          color: black;
-      }
-      .d-flex {
-          background-color:red;
-      }
-      .justify-content-between {
-          justify-content: space-between;
-      }
-      .text-center {
-          text-align: center;
-      }
-      .fs-3 {
-          font-size: 1.5rem;
-      }
-      .pt-1 {
-          padding-top: 0.25rem;
-      }
-      .fw-semibold {
-          font-weight: 600;
-      }
-      .row {
-          display: flex;
-          flex-wrap: wrap;
-      }
-      .col {
-          flex-basis: 0;
-          flex-grow: 1;
-          max-width: 100%;
-      }
-      .mt-2 {
-          margin-top: 0.5rem;
-      }
-      .d-flex {
-          display: flex;
-      }
-      .gap-2 {
-          gap: 0.5rem;
-      }
-      .table {
-          width: 100%;
-          margin-bottom: 1rem;
-          color: #212529;
-      }
-      .table-bordered {
-          border: 1px solid #dee2e6;
-      }
-      .text-dark {
-          color: #343a40;
-      }
-      .fw-bold {
-          font-weight: bold;
-      }
-      .p-1 {
-          padding: 0.25rem;
-      }
-      .align-self-center {
-          align-self: center;
-      }
-      .text-center {
-          text-align: center;
-      }
-      .justify-content-end {
-          justify-content: flex-end;
-      }
-      .w-100 {
-          width: 100%;
-      }
-      .text-bg-light {
-          background-color: #f8f9fa;
-      }
-      .table {
-          width: 100%;
-          margin-bottom: 1rem;
-          color: #212529;
-      }
-      .mt-2 {
-          margin-top: 0rem;
-      }
-      .w-100 {
-          width: 100%;
-      }
-      .table {
-          width: 100%;
-          margin-bottom: 1rem;
-          color: #212529;
-      }
-      .thead-light {
-          color: #495057;
-          background-color: #e9ecef;
-          border-color: #dee2e6;
-      }
-      .bg-primary {
-          background-color: #007bff;
-      }
   </style>
 </head>
 
@@ -130,8 +28,8 @@
         <p class="fs-3 pt-1 fw-semibold" style="color: #d40000;">TAX REPORT</p>
     </div>
 
-    <div class="row">
-        <div class="col mt-2 d-flex gap-2" pdf-keep-with-next="true">
+    <div class="row fs-3">
+        <div class="col mt-2 d-flex gap-2">
             <h6 class="text-black">Aadhaar Number (12 digit): </h6>
             <table class="table table-bordered text-dark fw-bold p-1 text-center align-self-center">
                 <tbody>
@@ -141,7 +39,7 @@
                         <td>5</td><td>8</td><td>9</td><td>9</td><td>9</td><td>9</td>
                     </tr>
                 </tbody>
-            </table>
+            </table> 
         </div>
         <div class="col mt-2 d-flex gap-2">
             <h6 class="text-black">Full Name: </h6>
@@ -156,7 +54,7 @@
             </table>
         </div>
     </div>
-    <div class="row">
+    <div class="row ">
         <div class="col mt-2 d-flex gap-1">
             <h6 class="text-black">Permanent Account Number (PAN): </h6>
             <table class="table table-bordered text-dark fw-bold p-1 text-center justify-content-end">
@@ -213,34 +111,47 @@
       </table>
 
     </div>
-    <div class="row d-flex flex-column">
+    <div class="row d-flex flex-column fs-3">
         <div class="col mt-2 d-flex gap-1">
             <h6 class="text-black">Short Term Capital Gains:</h6>
-            <h6 class="text-black">123456789</h6>
+            <h6 class="text-black tax_calculation"></h6>
         </div>
         <div class="col mt-2 d-flex gap-1">
             <h6 class="text-black">Long Term Capital Gains</h6>
-            <h6 class="text-black">cryptocurrency@gmail.com</h6>
+            <h6 class="text-black tax_calculation"></h6>
         </div>
         <div class="col mt-2 d-flex gap-1">
             <h6 class="text-black">Short Term Capital Losses</h6>
-            <h6 class="text-black">123456789</h6>
+            <h6 class="text-black tax_calculation"></h6>
         </div>
         <div class="col mt-2 d-flex gap-1">
             <h6 class="text-black">Long Term Capital Losses</h6>
-            <h6 class="text-black">cryptocurrency@gmail.com</h6>
+            <h6 class="text-black tax_calculation"></h6>
         </div>
         <div class="col mt-2 d-flex gap-1">
             <h6 class="text-black">Total Tax Liability</h6>
-            <h6 class="text-black">cryptocurrency@gmail.com</h6>
+            <h6 class="text-black tax_calculation"></h6>
         </div>
     </div>
 </div>
-
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-    crossorigin="anonymous"></script>
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+crossorigin="anonymous"></script>
+<script>
+
+    fetch("http://127.0.0.1:8000/report/tax_calculation/")
+    .then((r)==r.json())
+    .then((response) => {
+        div=document.getElementsByClassName("tax_calculation");
+        div[0].innerText=response[0];
+        div[1].innerText=response[1];
+        div[2].innerText=response[2];
+        div[3].innerText=response[3];
+        div[4].innerText=response[0]+response[1]+response[2]+response[3];
+    })
+</script>
+
 
 </html>

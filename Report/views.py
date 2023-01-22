@@ -17,6 +17,9 @@ from dotenv import load_dotenv
 load_dotenv()
 from django.views.generic import View
 from django.template.loader import get_template
+from django.http import FileResponse
+
+
 
 
 #from django.http import HttpResponse
@@ -100,28 +103,17 @@ class GeneratePDF(View):
         return HttpResponse("Not found")
 
 def tax_report(request):
-    #transactions_data = gettrans()
-    transactions_data=[]
-
+    transactions_data = gettrans()
     context = {
         'transactions_data': transactions_data
     }
     return render(request, "Report/tax_report.html",context)
 
 def download_report(request):
-    template = get_template('Report/tax_report.html')
-
-    pdf = ut.render_to_pdf('Report/tax_report.html')
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Invoice_%s.pdf" % ("12341231")
-        content = "inline; filename='%s'" % (filename)
-        download = request.GET.get("download")
-        if download:
-            content = "attachment; filename='%s'" % (filename)
-        response['Content-Disposition'] = content
-        return response
-    return HttpResponse("Not found")
+    html = tax_report(request)
+    response = HttpResponse(html, content_type='text/html')
+    response['Content-Disposition'] = 'attachment; filename=Tax Report.html'
+    return response
 
 def news(request):
     return render(request,"Report/crypto_news.html")
