@@ -1,4 +1,5 @@
 {% extends "Report/base.html" %}
+{% load static %}
 {% block style%}
 <style>
     
@@ -29,7 +30,7 @@
     <option value="polygon">Polygon</option>
   </select>
 </div>
-
+<img src="{% static '/img/about-dance.gif'%}" alt="">
 <div class="d-flex gap-3">
     <button type="button">Binance</button>
     <button type="button">Gemini</button>

@@ -12,6 +12,9 @@
     text-align: left;
     border-bottom: 1px solid #ddd;
   }
+  .col-10{
+    width: 100% !important;
+  }
 </style>
 
 {% endblock style %}
@@ -32,35 +35,37 @@
     </div>
   </div>
 </div>
-<table class="mt-2 table table-striped">
-  <thead>
-    <tr class="bg-primary">
-      <th>Trade ID</th>
-      <th>Symbol</th>
-      <th>Buy/Sell</th>
-      <th>Quantity</th>
-      <th>Price (USD)</th>
-      <th>Total Value (USD)</th>
-      <th>Date/Time</th>
-    </tr>
-  </thead>
-  <tbody id="transaction-data" class="table-dark">
-    <!-- Data will be inserted here using JavaScript -->
-    {% for symbols in transactions_data %}
-    {% for data in symbols %}
-    <tr>
-      <th>{{ data.id}}</th>
-      <th>{{ data.symbol }}</th>
-      <th>{{ data.buySell }}</th>
-      <th>{{ data.qty }}</th>
-      <th>{{ data.price }}</th>
-      <th>{{ data.value }}</th>
-      <th>{{ data.time }}</th>
-    </tr>
-    {% endfor %}
-    {% endfor %}
-  </tbody>
-</table>
+<div class="table-responsive">
+  <table class="mt-2 table table-striped">
+    <thead>
+      <tr class="bg-primary">
+        <th class="col-lg-3 col-xs-2 col-md-2">Trade ID</th>
+        <th class="col-lg-3 col-xs-2 col-md-2">Symbol</th>
+        <th class="col-lg-3 col-xs-2 col-md-2">Buy/Sell</th>
+        <th class="col-lg-3 col-xs-2 col-md-2">Quantity</th>
+        <th class="col-lg-3 col-xs-2 col-md-2">Price (USD)</th>
+        <th class="col-lg-3 col-xs-2 col-md-2">Total Value (USD)</th>
+        <th class="col-lg-12 col-xs-2 col-md-2">Date/Time</th>
+      </tr>
+    </thead>
+    <tbody id="transaction-data" class="table-dark">
+      <!-- Data will be inserted here using JavaScript -->
+      {% for symbols in transactions_data %}
+      {% for data in symbols %}
+      <tr>
+        <th class="col-lg-3 col-xs-2 col-md-2">{{ data.id}}</th>
+        <th class="col-lg-3 col-xs-2 col-md-2">{{ data.symbol }}</th>
+        <th class="col-lg-3 col-xs-2 col-md-2">{{ data.buySell }}</th>
+        <th class="col-lg-3 col-xs-2 col-md-2">{{ data.qty }}</th>
+        <th class="col-lg-3 col-xs-2 col-md-2">{{ data.price }}</th>
+        <th class="col-lg-3 col-xs-2 col-md-2">{{ data.value }}</th>
+        <th class="col-lg-12 col-xs-2 col-md-2">{{ data.time }}</th>
+      </tr>
+      {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock content%}
 
 {% block script%}
