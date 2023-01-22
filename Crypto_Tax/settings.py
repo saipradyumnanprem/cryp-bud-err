@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Home.apps.HomeConfig',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'Crypto_Tax.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,r'Home/templates'),os.path.join(BASE_DIR,r'Report/templates')],
+        'DIRS': [os.path.join(BASE_DIR, r'Home/templates'), os.path.join(BASE_DIR, r'Report/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
