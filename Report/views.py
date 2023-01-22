@@ -328,3 +328,13 @@ def transactions_data(request):
     transactions_data = client.get_my_trades(symbol='BTCUSDT')
     transactions_data = sorted(transactions_data, key=lambda trade: trade['time'],reverse=True)
     return JsonResponse(transactions_data,safe=False)
+
+def coinbase_price(request):
+    url = "https://api.coinbase.com/v2/prices/BTC-USD/spot"
+    # Make a GET request to the API endpoint
+    response = requests.get(url)
+    # Get the JSON data from the response
+    data = response.json()
+    # Get the current price of Bitcoin in USD
+    price = data['data']['amount']
+    return JsonResponse(data,safe=False)
