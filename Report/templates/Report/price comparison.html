@@ -1,0 +1,42 @@
+{% extends "Report/base.html" %}
+{% block style%}
+<style>
+    
+</style>
+{% endblock style%}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-4">
+    <h1 class="h2">Price Comparison</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary svg-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+              </svg>
+          </button>
+        </div>
+    </div>
+</div>
+
+<p>The price of cryptocurrencies can vary greatly across different exchanges due to factors such as trading volume, liquidity, demand, fees, and listing policies. Exchanges with higher trading volume generally have more liquidity, which results in more stable prices, while lower trading volume can result in greater price volatility. Additionally, demand can also affect the price, with some exchanges having higher demand for certain cryptocurrencies due to factors such as regulatory restrictions and country-specific economic conditions. Some exchanges may also charge higher fees which can affect the price as well. It's important for investors to research the prices of cryptocurrencies on different exchanges before making a decision.</p>
+<div  class="d-flex gap-5">
+<p>Choose the Cyptocurrency</p>
+<select name="crypto" id="crypto-currency">
+    <option value="bitcoin">Bitcoin</option>
+    <option value="ethereum">Ethereum</option>
+    <option value="ftx">FTX Token</option>
+    <option value="polygon">Polygon</option>
+  </select>
+</div>
+
+<div class="d-flex gap-3">
+    <button type="button">Binance</button>
+    <button type="button">Gemini</button>
+</div>
+
+{% endblock content%}
+
+
+{% block script%}
+{% endblock script%}

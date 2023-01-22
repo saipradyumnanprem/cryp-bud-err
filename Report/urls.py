@@ -5,6 +5,7 @@ from .views import GeneratePDF
 urlpatterns = [
     # path('', views.home,name='home'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('comparison/', views.comparison,name='comparison'),
     path('temp/', views.temp, name='temp'),
     path('wallet/', views.wallet, name='wallet'),
     path('tax/', views.tax, name='tax'),
@@ -24,5 +25,6 @@ urlpatterns = [
     path('tax_calculation/', views.tax_calculation, name='tax_calculation'),
     path('tax_report/', views.tax_report, name='tax_report'),
     path('download_report/', views.download_report, name='download_report'),
+    path('coinbase_price/', views.coinbase_price, name='coinbase_price'),
 
 ]
