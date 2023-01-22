@@ -102,10 +102,69 @@ class GeneratePDF(View):
             return response
         return HttpResponse("Not found")
 
+def tax_calculation():
+    client=Client(API_KEY,API_SECRET)
+    from datetime import datetime, timedelta
+
+    trades = client.get_my_trades(symbol='BTCUSDT')
+
+    # Initialize variables to keep track of capital gains and losses
+    short_term_capital_gains = 0
+    long_term_capital_gains = 0
+    short_term_capital_losses = 0
+    long_term_capital_losses = 0
+
+    # Keep track of the purchase price and date of each coin
+    purchase_prices = {}
+    purchase_dates = {}
+
+    # Define the cutoff for short-term vs long-term gains
+    SHORT_TERM_CUTOFF = 365  # days
+
+    for trade in trades:
+        symbol = trade['symbol']
+        qty = float(trade['qty'])
+        price = float(trade['price'])
+        is_buyer = trade['isBuyer']
+        timestamp = trade['time']
+
+        # If the trade is a buy, update the purchase price and date for the coin
+        if is_buyer:
+            purchase_prices[symbol] = price
+            purchase_dates[symbol] = datetime.fromtimestamp(timestamp/1000)
+        else:
+            # If the trade is a sell, calculate the capital gain or loss
+            purchase_price = purchase_prices.get(symbol, 0)
+            purchase_date = purchase_dates.get(symbol, datetime.now())
+            gain_loss = (price - purchase_price) * qty
+            holding_period = (datetime.fromtimestamp(timestamp/1000) - purchase_date).days
+
+            if holding_period <= SHORT_TERM_CUTOFF:
+                if gain_loss > 0:
+                    short_term_capital_gains += gain_loss
+                else:
+                    short_term_capital_losses += gain_loss
+            else:
+                if gain_loss > 0:
+                    long_term_capital_gains += gain_loss
+                else:
+                    long_term_capital_losses += gain_loss
+    total_tax=short_term_capital_gains+long_term_capital_gains
+    capital=dict()
+    capital["short_gains"]=short_term_capital_gains
+    capital["long_gains"]=long_term_capital_gains
+    capital["short_loss"]=short_term_capital_losses
+    capital["long_loss"]=long_term_capital_losses
+    capital["total_tax"]=total_tax
+    return dict(capital)
+
 def tax_report(request):
     transactions_data = gettrans()
+    tax_data = tax_calculation()
+    print(tax_data)
     context = {
-        'transactions_data': transactions_data
+        'transactions_data': transactions_data,
+        'tax_data':tax_data
     }
     return render(request, "Report/tax_report.html",context)
 
@@ -263,56 +322,6 @@ def price_recommend(request):
     btc_data = response.json()
     print(btc_data)
     return JsonResponse(btc_data,safe=False)
-
-def tax_calculation(request):
-    client=Client(API_KEY,API_SECRET)
-    from datetime import datetime, timedelta
-
-    trades = client.get_my_trades(symbol='BTCUSDT')
-
-    # Initialize variables to keep track of capital gains and losses
-    short_term_capital_gains = 0
-    long_term_capital_gains = 0
-    short_term_capital_losses = 0
-    long_term_capital_losses = 0
-
-    # Keep track of the purchase price and date of each coin
-    purchase_prices = {}
-    purchase_dates = {}
-
-    # Define the cutoff for short-term vs long-term gains
-    SHORT_TERM_CUTOFF = 365  # days
-
-    for trade in trades:
-        symbol = trade['symbol']
-        qty = float(trade['qty'])
-        price = float(trade['price'])
-        is_buyer = trade['isBuyer']
-        timestamp = trade['time']
-
-        # If the trade is a buy, update the purchase price and date for the coin
-        if is_buyer:
-            purchase_prices[symbol] = price
-            purchase_dates[symbol] = datetime.fromtimestamp(timestamp/1000)
-        else:
-            # If the trade is a sell, calculate the capital gain or loss
-            purchase_price = purchase_prices.get(symbol, 0)
-            purchase_date = purchase_dates.get(symbol, datetime.now())
-            gain_loss = (price - purchase_price) * qty
-            holding_period = (datetime.fromtimestamp(timestamp/1000) - purchase_date).days
-
-            if holding_period <= SHORT_TERM_CUTOFF:
-                if gain_loss > 0:
-                    short_term_capital_gains += gain_loss
-                else:
-                    short_term_capital_losses += gain_loss
-            else:
-                if gain_loss > 0:
-                    long_term_capital_gains += gain_loss
-                else:
-                    long_term_capital_losses += gain_loss
-    list1=[short_term_capital_gains,long_term_capital_gains,short_term_capital_losses,long_term_capital_losses]
-    return JsonResponse(list1,safe=False)
 
 def transactions_data(request):
     client=Client(API_KEY,API_SECRET)

@@ -54,5 +54,18 @@
             let selectedDiv = htmlDoc.querySelector("body");
             document.getElementById("content").innerHTML = selectedDiv.innerHTML;
         });
+    fetch('http://127.0.0.1:8000/report/tax_calculation/')
+       .then((r) => r.json())
+       .then((response) => {
+            div=document.getElementsByClassName("tax_calculation");
+            console.log(div)
+            console.log(response)
+            console.log(response[0])
+            div[0].innerText=response[0];
+            div[1].innerText=response[1];
+            div[2].innerText=response[2];
+            div[3].innerText=response[3];
+            div[4].innerText=response[0]+response[1]+response[2]+response[3];
+        })
 </script>
 {% endblock script%}
