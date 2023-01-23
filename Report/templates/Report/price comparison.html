@@ -1,12 +1,71 @@
 {% extends "Report/base.html" %}
-{% load static %}
 {% block style%}
+{% load static %}
 <style>
-    
+
+.price-comparison{
+  font: Oswald;
+  font-size: 14pt;
+  text-justify: inter-word; 
+}
+
+.price-comparison .comparer-image{
+  align-items: right;
+}
+
+.select-box{
+  height: 50px;
+  width: 250px;
+}
+
+.button {
+  width: 250px;
+  height: 50px;
+  align-items: center;
+  background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-family: Phantomsans, sans-serif;
+  font-size: 20px;
+  justify-content: center;
+  line-height: 1em;
+  padding: 19px 24px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.button:active,
+.button:hover {
+  outline: 0;
+}
+.flex-parent {
+  display: flex;
+}
+
+.jc-center {
+  justify-content: center;
+}
+p{
+  text-align: justify;
+}
+
+button.margin-right {
+  margin-right: 20px;
+}
+
 </style>
 {% endblock style%}
 
 {% block content %}
+<div class="price-comparison">
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-4">
     <h1 class="h2">Price Comparison</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
@@ -20,24 +79,43 @@
     </div>
 </div>
 
+</br>
+
 <p>The price of cryptocurrencies can vary greatly across different exchanges due to factors such as trading volume, liquidity, demand, fees, and listing policies. Exchanges with higher trading volume generally have more liquidity, which results in more stable prices, while lower trading volume can result in greater price volatility. Additionally, demand can also affect the price, with some exchanges having higher demand for certain cryptocurrencies due to factors such as regulatory restrictions and country-specific economic conditions. Some exchanges may also charge higher fees which can affect the price as well. It's important for investors to research the prices of cryptocurrencies on different exchanges before making a decision.</p>
+</br>
+
 <div  class="d-flex gap-5">
-<p>Choose the Cyptocurrency</p>
-<select name="crypto" id="crypto-currency">
+<p>Choose your currency: </p>
+<form class="select-box">
+  <select name="crypto" id="crypto-currency" class="form-select rounded select-box">
     <option value="bitcoin">Bitcoin</option>
     <option value="ethereum">Ethereum</option>
     <option value="ftx">FTX Token</option>
     <option value="polygon">Polygon</option>
   </select>
+</form>
+
 </div>
-<img src="{% static '/img/about-dance.gif'%}" alt="">
-<div class="d-flex gap-3">
-    <button type="button">Binance</button>
-    <button type="button">Gemini</button>
+
+</br>
+
+</div>
+</br>
+<div class="d-flex gap-5 buttons flex-parent jc-center image">
+    <button class="button" role="button">Binance</button>
+    <button class="button" role="button">Gemini</button>
+    <button class="button" role="button">Coinbase</button>
+
+</div>
+
+<!-- <br style = “line-height: 100px;”>  -->
+
 </div>
 
 {% endblock content%}
 
-
 {% block script%}
+<script>
+  
+</script>
 {% endblock script%}

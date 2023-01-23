@@ -40,15 +40,14 @@
         <th class="col-lg-1 col-xs-2 col-md-2">Symbol</th>
         <th class="col-lg-1 col-xs-2 col-md-2">Buy/Sell</th>
         <th class="col-lg-2 col-xs-2 col-md-2">Quantity</th>
-        <th class="col-lg-2 col-xs-2 col-md-2">Price (USD)</th>
-        <th class="col-lg-2 col-xs-2 col-md-2">Total Value (USD)</th>
+        <th class="col-lg-2 col-xs-2 col-md-2">Price (INR)</th>
+        <th class="col-lg-2 col-xs-2 col-md-2">Total Value (INR)</th>
         <th class="col-lg-2 col-xs-2 col-md-2">Date/Time</th>
       </tr>
     </thead>
     <tbody id="transaction-data" class="table-dark">
       <!-- Data will be inserted here using JavaScript -->
-      {% for symbols in transactions_data %}
-      {% for data in symbols %}
+      {% for data in transactions_data %}
       <tr>
         <th class="col-lg-1 col-xs-2 col-md-2">{{ data.id}}</th>
         <th class="col-lg-1 col-xs-2 col-md-2">{{ data.symbol }}</th>
@@ -58,7 +57,6 @@
         <th class="col-lg-2 col-xs-2 col-md-2">{{ data.value }}</th>
         <th class="col-lg-2 col-xs-2 col-md-2">{{ data.time }}</th>
       </tr>
-      {% endfor %}
       {% endfor %}
     </tbody>
   </table>

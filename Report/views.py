@@ -12,13 +12,14 @@ from Report.models import listOfCoins
 import json, requests
 import pandas as pd
 import os
-from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
 from django.views.generic import View
 from django.template.loader import get_template
 from django.http import FileResponse
-
+from datetime import datetime, timedelta
+from forex_python.converter import CurrencyRates
+from decimal import Decimal
 
 
 
@@ -28,6 +29,8 @@ API_KEY=os.environ['binance_api']
 API_SECRET=os.environ['binance_secret']
 
 client = Spot(API_KEY,API_SECRET)
+
+currency_rates = CurrencyRates()
 #client.API_URL = 'https://testnet.binance.vision/api'
 #def home(request):
 #    return render(request ,"Report/index.html")
@@ -54,6 +57,7 @@ def gettrans():
             except:
                 continue
         for data in transactions_data[-1]:
+            data['price']=currency_rates.convert('USD','INR',Decimal(data['price']))
             data['value']=float(data['qty'])*float(data['price'])
             data['buySell']="Buy" if(data['isBuyer']) else "Sell"
             try:
@@ -61,6 +65,12 @@ def gettrans():
                 data['time']=data['time'].strftime("%Y-%m-%d %H:%M:%S")
             except:
                 continue
+    temp_transaction_data=[]
+    for transactions_symbol in transactions_data:
+        for data in transactions_symbol:
+            temp_transaction_data.append(data)
+    transactions_data=sorted(temp_transaction_data, key=lambda x: datetime.strptime(x['time'], "%Y-%m-%d %H:%M:%S"),reverse=True)
+    print(transactions_data[:2])
     return transactions_data
 
 def transactions(request):
@@ -102,60 +112,78 @@ class GeneratePDF(View):
         return HttpResponse("Not found")
 
 def tax_calculation():
-    client=Client(API_KEY,API_SECRET)
-    from datetime import datetime, timedelta
-
-    trades = client.get_my_trades(symbol='BTCUSDT')
-
-    # Initialize variables to keep track of capital gains and losses
-    short_term_capital_gains = 0
-    long_term_capital_gains = 0
-    short_term_capital_losses = 0
-    long_term_capital_losses = 0
-
-    # Keep track of the purchase price and date of each coin
-    purchase_prices = {}
-    purchase_dates = {}
-
-    # Define the cutoff for short-term vs long-term gains
-    SHORT_TERM_CUTOFF = 365  # days
-
-    for trade in trades:
-        symbol = trade['symbol']
-        qty = float(trade['qty'])
-        price = float(trade['price'])
-        is_buyer = trade['isBuyer']
-        timestamp = trade['time']
-
-        # If the trade is a buy, update the purchase price and date for the coin
-        if is_buyer:
-            purchase_prices[symbol] = price
-            purchase_dates[symbol] = datetime.fromtimestamp(timestamp/1000)
-        else:
-            # If the trade is a sell, calculate the capital gain or loss
-            purchase_price = purchase_prices.get(symbol, 0)
-            purchase_date = purchase_dates.get(symbol, datetime.now())
-            gain_loss = (price - purchase_price) * qty
-            holding_period = (datetime.fromtimestamp(timestamp/1000) - purchase_date).days
-
-            if holding_period <= SHORT_TERM_CUTOFF:
-                if gain_loss > 0:
-                    short_term_capital_gains += gain_loss
-                else:
-                    short_term_capital_losses += gain_loss
-            else:
-                if gain_loss > 0:
-                    long_term_capital_gains += gain_loss
-                else:
-                    long_term_capital_losses += gain_loss
-    total_tax=short_term_capital_gains+long_term_capital_gains
+    total_tax=0
     capital=dict()
-    capital["short_gains"]=short_term_capital_gains
-    capital["long_gains"]=long_term_capital_gains
-    capital["short_loss"]=short_term_capital_losses
-    capital["long_loss"]=long_term_capital_losses
+    client=Client(API_KEY,API_SECRET)
+    info = Spot(API_KEY,API_SECRET).account_snapshot("SPOT")
+    info=info["snapshotVos"][2]["data"]["balances"]
+    capital["short_gains"]=0
+    capital["long_gains"]=0
+    capital["short_loss"]=0
+    capital["long_loss"]=0
+    for symbol in info:
+        try:
+            trades = client.get_my_trades(symbol=symbol["asset"]+"USDT")
+        except:
+            try:
+                trades = client.get_my_trades(symbol=symbol["asset"])
+            except:
+                continue
+
+        # Initialize variables to keep track of capital gains and losses
+        short_term_capital_gains = 0
+        long_term_capital_gains = 0
+        short_term_capital_losses = 0
+        long_term_capital_losses = 0
+
+        # Keep track of the purchase price and date of each coin
+        purchase_prices = {}
+        purchase_dates = {}
+
+        # Define the cutoff for short-term vs long-term gains
+        SHORT_TERM_CUTOFF = 1080  # days
+
+        for trade in trades:
+            symbol = trade['symbol']
+            qty = float(trade['qty'])
+            price = float(trade['price'])
+            is_buyer = trade['isBuyer']
+            timestamp = trade['time']
+
+            # If the trade is a buy, update the purchase price and date for the coin
+            if is_buyer:
+                purchase_prices[symbol] = price
+                purchase_dates[symbol] = datetime.fromtimestamp(timestamp/1000)
+            else:
+                # If the trade is a sell, calculate the capital gain or loss
+                purchase_price = purchase_prices.get(symbol, 0)
+                purchase_date = purchase_dates.get(symbol, datetime.now())
+                gain_loss = (price - purchase_price) * qty
+                holding_period = (datetime.fromtimestamp(timestamp/1000) - purchase_date).days
+
+                if holding_period <= SHORT_TERM_CUTOFF:
+                    if gain_loss > 0:
+                        short_term_capital_gains += gain_loss
+                    else:
+                        short_term_capital_losses += gain_loss
+                else:
+                    if gain_loss > 0:
+                        long_term_capital_gains += gain_loss
+                    else:
+                        long_term_capital_losses += gain_loss
+        total_tax+=short_term_capital_gains+long_term_capital_gains
+        capital["short_gains"]+=short_term_capital_gains
+        capital["long_gains"]+=long_term_capital_gains
+        capital["short_loss"]+=short_term_capital_losses
+        capital["long_loss"]+=long_term_capital_losses
+    print(total_tax)
     capital["total_tax"]=total_tax
-    return dict(capital)
+    capital['short_gains']=currency_rates.convert('USD','INR',Decimal(capital['short_gains']))
+    capital['long_gains']=currency_rates.convert('USD','INR',Decimal(capital['long_gains']))
+    capital['short_loss']=currency_rates.convert('USD','INR',Decimal(capital['short_loss']))
+    capital['long_loss']=currency_rates.convert('USD','INR',Decimal(capital['long_loss']))
+    capital['total_tax']=currency_rates.convert('USD','INR',Decimal(capital['total_tax']))
+    return capital
 
 def tax_report(request):
     transactions_data = gettrans()
@@ -177,17 +205,17 @@ def news(request):
     return render(request,"Report/crypto_news.html")
 
 def history(request,coin_name=None):
-    candlesticks=client.klines(coin_name+"USDT","1m")
+    candlesticks=client.klines(coin_name+"USDT","5m")
     #candlesticks = client.get_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_15MINUTE, "1 Aug, 2022", "3 Jul, 2022")
     processed_candlesticks = []
-
+    usd_inr = float(currency_rates.get_rate('USD', 'INR'))
     for data in candlesticks:
         candlestick = { 
             "time": (data[0] / 1000)+19800, 
-            "open": data[1],
-            "high": data[2], 
-            "low": data[3], 
-            "close": data[4]
+            "open": str(usd_inr*float(data[1])),
+            "high": str(usd_inr*float(data[2])), 
+            "low": str(usd_inr*float(data[3])), 
+            "close": str(usd_inr*float(data[4]))
         }
         processed_candlesticks.append(candlestick)
     
@@ -209,7 +237,7 @@ def prices():
     print(len(processed_info))
     for data in processed_info:
         try:
-            price=client.ticker_price(data["coinName"]+"USDT")["price"]
+            price=currency_rates.convert('USD','INR',Decimal(client.ticker_price(data["coinName"]+"USDT")["price"]))
             info.append({"coinName":data["coinName"],"price":price})
         except:
             try:
@@ -232,12 +260,12 @@ def balances(request):
         data=info[i]
         if(float(data["free"])>0):
             try:
-                data["value"]=float(data["free"])*float(client.ticker_price(data["asset"]+"USDT")["price"])
+                data["value"]=float(currency_rates.convert('USD','INR',Decimal(data["free"])))*float(currency_rates.convert('USD','INR',Decimal(client.ticker_price(data["asset"]+"USDT")["price"])))
             except:
                 data["value"]=-1
             try:
-                data["original_Price"]=float(client.my_trades(symbol=data["asset"]+"USDT")[0]["price"])
-                data["original_Value"]=float(data["free"])*float(data["original_Price"])
+                data["original_Price"]=float(currency_rates.convert('USD','INR',Decimal(client.my_trades(symbol=data["asset"]+"USDT")[0]["price"])))
+                data["original_Value"]=float(currency_rates.convert('USD','INR',Decimal(data["free"]))*currency_rates.convert('USD','INR',Decimal(data["original_Price"])))
                 data["ROI"]=round(((data["value"]-data["original_Value"])/data["original_Value"])*100,2)
                 
             except:

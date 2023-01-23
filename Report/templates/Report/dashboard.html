@@ -304,16 +304,23 @@ img[alt*="price-graph"] {
 
   binanceSocket.onmessage = function (event) {	
   let message = JSON.parse(event.data);
+  let inrRate=1;
+  fetch(`https://api.exchangerate-api.com/v4/latest/USD`)
+  .then(response => response.json())
+  .then(data => {
+    inrRate = data.rates.INR;
+    console.log(typeof(candlestick.o))
+    console.log("asjskjsksajksajksajskjsks\n")
+  });
 
   var candlestick = message.k;
       graph_candle.update({
         time: (candlestick.t / 1000)+19800,
-        open:parseFloat(new Big(candlestick.o).toFixed(10)),
-        high:parseFloat(new Big(candlestick.h).toFixed(10)),
-        low:parseFloat(new Big(candlestick.l).toFixed(10)),
-        close:parseFloat(new Big(candlestick.c).toFixed(10))
-    })
-
+        open:String(parseFloat(candlestick.o) * inrRate),
+        high:String(parseFloat(candlestick.h) * inrRate),
+        low:String(parseFloat(candlestick.l) * inrRate),
+        close:String(parseFloat(candlestick.c) * inrRate)
+     })
   }
 
 

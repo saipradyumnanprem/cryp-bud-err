@@ -13,12 +13,12 @@
 
   <div class="p-5 block bg-white text-black">
     <div class="d-flex justify-content-between">
-        <!-- <div class="">
+        <div class="">
             <img src="{% static '/img/crypt-buddy-bw.png' %}" width="250" height="50">
         </div>
         <div>
             <img src="{% static '/img/codegenix.png' %}" width="250" height="50">
-        </div> -->
+        </div>
     </div>
 
     <div class="text-center">
@@ -91,8 +91,7 @@
         </thead>
         <tbody id="transaction-data">
           <!-- Data will be inserted here using JavaScript -->
-          {% for symbols in transactions_data %}
-          {% for data in symbols %}
+          {% for data in transactions_data %}
           <tr class="text-bg-light bg-white">
             <th>{{ data.id}}</th>
             <th>{{ data.symbol }}</th>
@@ -102,7 +101,6 @@
             <th>{{ data.value }}</th>
             <th>{{ data.time }}</th>
           </tr>
-          {% endfor %}
           {% endfor %}
         </tbody>
       </table>
