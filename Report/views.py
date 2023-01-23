@@ -35,9 +35,6 @@ client = Spot(API_KEY,API_SECRET)
 def dashboard(request):
     return render(request,"Report/dashboard.html")
 
-def temp(request):
-    return render(request,"Report/temp.html")
-
 def wallet(request):
     return render(request,"Report/wallet.html")
 
