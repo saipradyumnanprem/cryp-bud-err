@@ -18,6 +18,7 @@
         .eachStory img {
             float: left;
             margin-right: 10px;
+            margin-top:8px;
         }
         .eachStory time, #pageContent .eachStory span.time {
             color: #666;
@@ -65,9 +66,12 @@
                 }
             }
             let a_list=news_body.getElementsByTagName('a');
+            news_body.setAttribute("style","text-align: justify;")
+            news_body.setAttribute("class","me-5")
             for(let i=0;i<a_list.length;i++){
                 if(a_list[i]){
                     a_list[i].href="https://economictimes.indiatimes.com/"+a_list[i].href;
+                    a_list[i].target = "_blank";
                 }
             }
             for(let i=1;i<news_body.childNodes.length;i++)
