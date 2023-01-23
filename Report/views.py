@@ -47,6 +47,7 @@ def gettrans():
     info = client.account_snapshot("SPOT")
     info=info["snapshotVos"][2]["data"]["balances"]
     transactions_data=[]
+    usd_inr = float(currency_rates.get_rate('USD', 'INR'))
     for symbol in info:
         #try:
         try:
@@ -57,7 +58,7 @@ def gettrans():
             except:
                 continue
         for data in transactions_data[-1]:
-            data['price']=currency_rates.convert('USD','INR',Decimal(data['price']))
+            data['price']=usd_inr*data['price']
             data['value']=float(data['qty'])*float(data['price'])
             data['buySell']="Buy" if(data['isBuyer']) else "Sell"
             try:
@@ -176,13 +177,14 @@ def tax_calculation():
         capital["long_gains"]+=long_term_capital_gains
         capital["short_loss"]+=short_term_capital_losses
         capital["long_loss"]+=long_term_capital_losses
-    print(total_tax)
+
     capital["total_tax"]=total_tax
-    capital['short_gains']=currency_rates.convert('USD','INR',Decimal(capital['short_gains']))
-    capital['long_gains']=currency_rates.convert('USD','INR',Decimal(capital['long_gains']))
-    capital['short_loss']=currency_rates.convert('USD','INR',Decimal(capital['short_loss']))
-    capital['long_loss']=currency_rates.convert('USD','INR',Decimal(capital['long_loss']))
-    capital['total_tax']=currency_rates.convert('USD','INR',Decimal(capital['total_tax']))
+    usd_inr = float(currency_rates.get_rate('USD', 'INR'))
+    capital['short_gains']=usd_inr*capital['short_gains']
+    capital['long_gains']=usd_inr*capital['long_gains']
+    capital['short_loss']=usd_inr*capital['short_loss']
+    capital['long_loss']=usd_inr*capital['long_loss']
+    capital['total_tax']=usd_inr*capital['total_tax']
     return capital
 
 def tax_report(request):
@@ -256,16 +258,17 @@ def test(request):
 def balances(request):
     info = client.account_snapshot("SPOT")["snapshotVos"][-2]["data"]["balances"]
     processed_info=[]
+    usd_inr = float(currency_rates.get_rate('USD', 'INR'))
     for i in range(0,len(info)):
         data=info[i]
         if(float(data["free"])>0):
             try:
-                data["value"]=float(currency_rates.convert('USD','INR',Decimal(data["free"])))*float(currency_rates.convert('USD','INR',Decimal(client.ticker_price(data["asset"]+"USDT")["price"])))
+                data["value"]=usd_inr*float(data["free"])*float(client.ticker_price(data["asset"]+"USDT")["price"])
             except:
                 data["value"]=-1
             try:
-                data["original_Price"]=float(currency_rates.convert('USD','INR',Decimal(client.my_trades(symbol=data["asset"]+"USDT")[0]["price"])))
-                data["original_Value"]=float(currency_rates.convert('USD','INR',Decimal(data["free"]))*currency_rates.convert('USD','INR',Decimal(data["original_Price"])))
+                data["original_Price"]=usd_inr*float(client.my_trades(symbol=data["asset"]+"USDT")[0]["price"])
+                data["original_Value"]=usd_inr*float(data["free"])*float(data["original_Price"])
                 data["ROI"]=round(((data["value"]-data["original_Value"])/data["original_Value"])*100,2)
                 
             except:
