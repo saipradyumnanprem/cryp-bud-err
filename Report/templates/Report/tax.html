@@ -45,7 +45,7 @@
 <script>
     let nav_list = document.getElementsByClassName("nav");
     let list_element = nav_list[0].getElementsByClassName("nav-item");
-    list_element[3].firstElementChild.classList.add("active");
+    list_element[4].firstElementChild.classList.add("active");
     fetch(`{% url 'tax_report' %}`)
         .then(response => response.text())
         .then(data => {
