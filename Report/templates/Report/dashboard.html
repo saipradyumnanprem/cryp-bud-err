@@ -128,7 +128,7 @@ img[alt*="price-graph"] {
   </div>
 </div>
 
-<div class="container p-0">
+<div class="container p-0 d-none">
   <div class="row">
     <div class="splide">
       <div class="splide__track">
@@ -164,7 +164,7 @@ img[alt*="price-graph"] {
   </div>
 </div>
 </div>
-<div class="my-4 w-100" id="chart" width="1100" height="400"></div>
+<div class="my-4 w-100 mx-auto" id="chart"></div>
 
 <div class="table-responsive" id="first-table">
   <table class="table table-striped table-sm table-body">
@@ -175,17 +175,17 @@ img[alt*="price-graph"] {
 
 <div class="container-fluid mt-5">
   <div class="row">
-    <div class="col-4">
+    <div class="col-12 col-sm-4">
       <div class="mb-2 pb-1">
-        <h3>🔥 Trending</h3>
+        <h3 class="text-center">🔥 Trending</h3>
       </div>
         <div class="table-responsive">
             <table class="table table-striped table-sm table-body">
             </table>
         </div>
     </div>
-    <div class="col-4">
-      <div class="d-inline-flex flex-row align-items-center mb-2">
+    <div class="col-12 col-sm-4 my-2 my-sm-0">
+      <div class="d-inline-flex flex-row align-items-center mb-2 mx-auto text-center">
         <div class="feature-icon-small d-inline-flex align-items-center justify-content-center fs-4 rounded-5 mb-1 me-1" style=" background-color: rgb(22, 199, 132);  ">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" height="16px" width="16px" viewBox="0 0 24 24" class="sc-16r8icm-0 coGWQa" style="transform: scale(1.5,1.5);">
             <path d="M21 7L12.9 16L7.5 10.6L3 15.1" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round">
@@ -194,15 +194,15 @@ img[alt*="price-graph"] {
             </path>
           </svg>
         </div>
-        <h3>Biggest Gainers</h3>
+        <h3 class="text-center">Biggest Gainers</h3>
       </div>
       <div class="table-responsive">
         <table class="table table-striped table-sm table-body Gainers">
         </table>
         </div>
     </div>
-    <div class="col-4">
-      <div class="d-inline-flex flex-row align-items-center mb-2">
+    <div class="col-12 col-sm-4 my-2 my-sm-0">
+      <div class="d-inline-flex flex-row align-items-center mb-2 mx-auto text-center">
         <div class="feature-icon-small d-inline-flex align-items-center justify-content-center fs-4 rounded-5 mb-1 me-1" style=" background-color: rgb(234, 57, 67);">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" height="16px" width="16px" viewBox="0 0 24 24" class="sc-16r8icm-0 coGWQa" style="transform: scale(1.5,1.5);">
             <path d="M21 17L12.9 8L7.5 13.4L3 8.9" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round">
@@ -211,7 +211,7 @@ img[alt*="price-graph"] {
             </path>
           </svg>
         </div>
-        <h3>Biggest Losers</h3>
+        <h3 class="text-center">Biggest Losers</h3>
       </div>
       <div class="table-responsive">
         <table class="table table-striped table-sm table-body">
@@ -232,8 +232,8 @@ img[alt*="price-graph"] {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/big.js/5.2.2/big.min.js"></script>
 <script type="text/javascript">
   var chart = LightweightCharts.createChart(document.getElementById('chart'), {
-   width: 1100,
-   height: 400,
+   width: (window.screen.width>=780? 0.80*window.screen.width:0.95*window.screen.width),
+   height: 0.75*window.screen.height,
    layout: {
        backgroundColor: '#343a40',
        textColor: 'white',

@@ -58,7 +58,7 @@ def gettrans():
             except:
                 continue
         for data in transactions_data[-1]:
-            data['price']=usd_inr*data['price']
+            data['price']=str(usd_inr*float(data['price']))
             data['value']=float(data['qty'])*float(data['price'])
             data['buySell']="Buy" if(data['isBuyer']) else "Sell"
             try:
