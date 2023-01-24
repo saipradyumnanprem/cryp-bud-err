@@ -3,135 +3,138 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crypto₿uddy - Report</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crypto₿uddy - Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 
 <body>
 
-  <div class="p-5 block bg-white text-black">
-    <div class="d-flex justify-content-between">
-        <div class="">
-            <img src="{% static '/img/crypt-buddy-bw.png' %}" width="250" height="50">
+    <div class="p-5 block bg-white text-black">
+        <div class="d-flex justify-content-between">
+            <div class="">
+                <img src="{% static '/img/crypt-buddy-bw.png' %}" width="250" height="50">
+            </div>
+            <div>
+                <img src="{% static '/img/codegenix.png' %}" width="250" height="50">
+            </div>
         </div>
-        <div>
-            <img src="{% static '/img/codegenix.png' %}" width="250" height="50">
+
+        <div class="text-center">
+            <p class="fs-3 pt-1 fw-semibold" style="color: #d40000;">TAX REPORT</p>
         </div>
-    </div>
 
-    <div class="text-center">
-        <p class="fs-3 pt-1 fw-semibold" style="color: #d40000;">TAX REPORT</p>
-    </div>
+        <div class="row fs-3">
 
-    <div class="row fs-3">
-        <div class="col mt-2 d-flex gap-2">
-            <h6 class="text-black">Aadhaar Number (12 digit): </h6>
-            <table class="table table-bordered text-dark fw-bold p-1 text-center align-self-center">
-                <tbody>
-                    <tr class="p-1" style="font-size: 0.75rem;">
-                        <td>G</td><td>C</td>
-                        <td>I</td><td>P</td><td>2</td><td>2</td><td>4</td>
-                        <td>5</td><td>8</td><td>9</td><td>9</td><td>9</td><td>9</td>
+            <div class="col-sm-12 mt-2 d-flex gap-2">
+                <h5 class="text-black mt-1" style="white-space: nowrap">Full Name:</h5>
+                <table class="table table-bordered text-dark fw-bold p-1 text-center w-75">
+                    <tbody>
+                        <tr class="p-1" style="font-size: 0.75rem;">
+                            {% for i in name %}
+                            <td>{{ i }}</td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-8 mt-2 d-flex ap-2">
+                <h5 class="text-black mt-1" style="white-space: nowrap">Aadhaar Number (12 digit):</h5>
+                <table
+                    class="table table-bordered text-dark fw-bold p-1 text-center align-self-center w-75 margin ms-2">
+                    <tbody>
+                        <tr class="p-1" style="font-size: 0.75rem;">
+                            {% for i in aadhaar %}
+                            <td>{{ i }}</td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="row ">
+            <div class="col-sm-8 mt-2 d-flex gap-1">
+                <h5 class="text-black mt-1" style="white-space: nowrap">Permanent Account Number (PAN): </h5>
+                <table class="table table-bordered text-dark fw-bold p-1 text-center justify-content-end w-75 ms-2">
+                    <tbody>
+                        <tr class="p-1" style="font-size: 0.75rem;">
+                            {% for i in pan %}
+                            <td>{{ i }}</td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-around mt-2">
+            <div class="col d-flex gap-1">
+                <h5 class="text-black mt-1">Mobile Number: <span class="fs-5 fw-normal">8309074001</span></h5>
+            </div>
+            <div class="col d-flex gap-1">
+                <h5 class="text-black mt-1">Email: <span class="fs-5 fw-normal">crypbud@gmail.com</span></h5>
+            </div>
+        </div>
+
+        <div class="w-100 text-bg-light">
+            <table class="mt-2 w-100 table">
+                <thead class="text-center">
+                    <tr class="bg-primary text-white">
+                        <th>Trade ID</th>
+                        <th>Symbol</th>
+                        <th>Buy/Sell</th>
+                        <th>Quantity</th>
+                        <th>Price (USD)</th>
+                        <th>Total Value (USD)</th>
+                        <th>Date/Time</th>
                     </tr>
-                </tbody>
-            </table> 
+                </thead>
+                <tbody id="transaction-data" class="text-center">
+                    <!-- Data will be inserted here using JavaScript -->
+                    {% for data in transactions_data %}
+                              <tr class="text-bg-light bg-white">
+                        <th>{{ data.id}}</th>
+                        <th>{{ data.symbol }}</th>
+                        <th>{{ data.buySell }}</th>
+                        <th>{{ data.qty }}</th>
+                        <th>{{ data.price }}</th>
+                        <th>{{ data.value }}</th>
+                        <th>{{ data.time }}</th>
+                    </tr>
+                    {% endfor %}
+                          </tbody>
+            </table>
+
         </div>
-        <div class="col mt-2 d-flex gap-2">
-            <h6 class="text-black">Full Name: </h6>
-            <table class="table table-bordered text-dark fw-bold p-1 text-center">
+        <div class="col-sm-6" style="margin-left: auto; margin-right: 0;">
+            <table class="table table-bordered text-black border-2">
                 <tbody>
-                    <tr class="p-1" style="font-size: 0.75rem;">
-                        <td>G</td><td>C</td>
-                        <td>I</td><td>P</td><td>2</td><td>2</td><td>4</td>
-                        <td>5</td><td>8</td><td>9</td><td>9</td><td>9</td><td>9</td>
+                    <tr>
+                        <td class="fw-semibold">Short Term Capital Gains: <span class="text-success">
+                                {{ tax_data.short_gains }}</span></td>
+                        <td class="fw-semibold">Short Term Capital Losses: <span class="text-danger">
+                                {{ tax_data.short_loss }}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="fw-semibold">Long Term Capital Gains: <span class="text-success">
+                                {{ tax_data.long_gains }}</span></td>
+                        <td class="fw-semibold">Long Term Capital Losses: <span class="text-danger">
+                                {{ tax_data.long_loss }}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="fw-semibold" colspan="2">Total Tax Liability: {{ tax_data.total_tax }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="row ">
-        <div class="col mt-2 d-flex gap-1">
-            <h6 class="text-black">Permanent Account Number (PAN): </h6>
-            <table class="table table-bordered text-dark fw-bold p-1 text-center justify-content-end">
-                <tbody>
-                    <tr class="p-1" style="font-size: 0.75rem;">
-                        <td>G</td><td>C</td>
-                        <td>I</td><td>P</td><td>2</td><td>2</td><td>4</td>
-                        <td>5</td><td>8</td><td>9</td><td>9</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="row d-flex justify-content-around">
-        <div class="col mt-2 d-flex gap-1">
-            <h6 class="text-black">Mobile Number:</h6>
-            <h6 class="text-black">123456789</h6>
-        </div>
-        <div class="col mt-2 d-flex gap-1">
-            <h6 class="text-black">Email Address:</h6>
-            <h6 class="text-black">cryptocurrency@gmail.com</h6>
-        </div>
-    </div>
-
-    <div class="w-100 text-bg-light">
-    <table class="mt-2 w-100 table">
-        <thead>
-          <tr class="bg-primary">
-            <th>Trade ID</th>
-            <th>Symbol</th>
-            <th>Buy/Sell</th>
-            <th>Quantity</th>
-            <th>Price (USD)</th>
-            <th>Total Value (USD)</th>
-            <th>Date/Time</th>
-          </tr>
-        </thead>
-        <tbody id="transaction-data">
-          <!-- Data will be inserted here using JavaScript -->
-          {% for data in transactions_data %}
-          <tr class="text-bg-light bg-white">
-            <th>{{ data.id}}</th>
-            <th>{{ data.symbol }}</th>
-            <th>{{ data.buySell }}</th>
-            <th>{{ data.qty }}</th>
-            <th>{{ data.price }}</th>
-            <th>{{ data.value }}</th>
-            <th>{{ data.time }}</th>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-    </div>
-    <div class="row d-flex flex-column fs-3">
-        <div class="col mt-2 d-flex gap-1">
-            <h6 class="text-black">Short Term Capital Gains:</h6>
-            <h6 class="text-black tax_calculation">{{ tax_data.short_gains }}</h6>
-        </div>
-        <div class="col mt-2 d-flex gap-1">
-            <h6 class="text-black">Long Term Capital Gains: </h6>
-            <h6 class="text-black tax_calculation">{{ tax_data.long_gains }}</h6>
-        </div>
-        <div class="col mt-2 d-flex gap-1">
-            <h6 class="text-black">Short Term Capital Losses: </h6>
-            <h6 class="text-black tax_calculation">{{ tax_data.short_loss }}</h6>
-        </div>
-        <div class="col mt-2 d-flex gap-1">
-            <h6 class="text-black">Long Term Capital Losses: </h6>
-            <h6 class="text-black tax_calculation">{{ tax_data.long_loss }}</h6>
-        </div>
-        <div class="col mt-2 d-flex gap-1">
-            <h6 class="text-black">Total Tax Liability: </h6>
-            <h6 class="text-black tax_calculation">{{ tax_data.total_tax }}</h6>
-        </div>
-    </div>
-</div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-crossorigin="anonymous"></script>
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+
 </html>

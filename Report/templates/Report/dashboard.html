@@ -128,7 +128,7 @@ img[alt*="price-graph"] {
   </div>
 </div>
 
-<div class="container p-0 d-none">
+<div class="container p-0">
   <div class="row">
     <div class="splide">
       <div class="splide__track">
@@ -232,8 +232,8 @@ img[alt*="price-graph"] {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/big.js/5.2.2/big.min.js"></script>
 <script type="text/javascript">
   var chart = LightweightCharts.createChart(document.getElementById('chart'), {
-   width: (window.screen.width>=780? 0.80*window.screen.width:0.95*window.screen.width),
-   height: 0.75*window.screen.height,
+   width: (window.screen.width>=780 ? 0.80*window.screen.width:0.95*window.screen.width),
+   height: (window.screen.height>=600 ? 0.60*window.screen.height:0.75*window.screen.height),
    layout: {
        backgroundColor: '#343a40',
        textColor: 'white',
@@ -293,7 +293,6 @@ img[alt*="price-graph"] {
   fetch(history_url)
    .then((r) => r.json())
    .then((response) => {
-      console.log(new Big(response[0]["high"]).toFixed(20));
       candleSeries.setData(response);
    })
   
@@ -304,13 +303,11 @@ img[alt*="price-graph"] {
 
   binanceSocket.onmessage = function (event) {	
   let message = JSON.parse(event.data);
-  let inrRate=1;
+  let inrRate=81.62;
   fetch(`https://api.exchangerate-api.com/v4/latest/USD`)
   .then(response => response.json())
   .then(data => {
     inrRate = data.rates.INR;
-    console.log(typeof(candlestick.o))
-    console.log("asjskjsksajksajksajskjsks\n")
   });
 
   var candlestick = message.k;
@@ -438,7 +435,6 @@ img[alt*="price-graph"] {
         fetch(history_url)
         .then((r) => r.json())
         .then((response) => {
-            console.log(response[0]["high"]);
             candleSeries.setData(response);
         })
         graph_candle=candleSeries;
