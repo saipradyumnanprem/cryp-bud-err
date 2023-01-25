@@ -150,12 +150,12 @@ img[alt*="price-graph"] {
 </div>
 <div class="d-flex flex-row-reverse">
   <div class="btn-toolbar mb-2 mb-md-0">
-    <div class="btn-group me-2">
+    <!-- <div class="btn-group me-2">
       <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
       <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-    </div>
+    </div> -->
   <div class="dropdown ">
-    <button class="btn btn-secondary dropdown-toggle py-1 text-center" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="selectCoin()">
+    <button class="btn btn-secondary dropdown-toggle px-2 text-center" type="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="selectCoin()">
       BTC
     </button>
     <ul class="dropdown-menu">
@@ -361,7 +361,7 @@ img[alt*="price-graph"] {
 
         var splide = new Splide('.splide', {
                 type: 'loop',
-                perPage: 5,
+                perPage: (window.screen.width<375)?1:(window.screen.width<700)?2:(window.screen.width<1000)?3:5,
                 rewind: true,
             });
 
