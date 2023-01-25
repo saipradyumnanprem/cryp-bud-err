@@ -43,7 +43,13 @@ def dashboard(request):
 
 
 def wallet(request):
-    return render(request, "Report/wallet.html")
+    transactions_data = gettrans()
+
+    context = {
+        'transactions_data': transactions_data
+    }
+
+    return render(request, "Report/wallet.html",context)
 
 
 def gettrans():
@@ -80,15 +86,8 @@ def gettrans():
     return transactions_data
 
 
-def transactions(request):
-
-    transactions_data = gettrans()
-
-    context = {
-        'transactions_data': transactions_data
-    }
-
-    return render(request, "Report/transactions.html", context)
+def foresight(request):
+    return render(request, "Report/foresight.html")
 
 
 def tax(request):

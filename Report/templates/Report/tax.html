@@ -20,12 +20,10 @@
 <div
     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-4">
     <h1 class="h2">Decoding Indian Cryptocurrency Taxation</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-toolbar mb-2 mb-md-0 ms-auto">
         <div class="btn-group me-2">
             <a href="{% url 'download_report' %}">
-
-            </a>
-            <button type="button"
+                <button type="button"
                 class="btn btn-sm btn-outline-secondary svg-btn border-0 fs-6 me-0 bg-danger text-white download"
                 id="save-pdf">
                 Download
@@ -37,12 +35,16 @@
                         d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
                 </svg>
             </button>
+            </a>
         </div>
     </div>
 </div>
 
 <!-- <iframe src="{% url 'tax_report' %}" title="Tax Report"></iframe> -->
-<div id="content"></div>
+<div class="table-responsive">
+    <div id="content" class="bg-white" style="width: fit-content;"></div>
+</div>
+
 
 
 {% endblock content%}

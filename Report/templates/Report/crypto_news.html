@@ -7,6 +7,7 @@
             position: relative;
             padding: 20px 0;
         }
+        
         .eachStory h3{
             margin-top: 0;
             margin-bottom: 0;
@@ -19,6 +20,7 @@
             float: left;
             margin-right: 10px;
             margin-top:8px;
+            height: auto;
         }
         .eachStory time, #pageContent .eachStory span.time {
             color: #666;
@@ -63,11 +65,14 @@
             for(let i=0;i<each_story.length;i++){
                 if(each_story[i].firstElementChild){
                     each_story[i].firstElementChild.setAttribute('href',"https://economictimes.indiatimes.com/"+each_story[i].firstElementChild.getAttribute('href'));
+                    each_story[i].getElementsByClassName("imgContainer")[0].classList.add("col-12","col-sm-4","col-md-3","col-lg-2")
+                    each_story[i].getElementsByTagName("img")[0].classList.add("img-responsive","col-12","col-sm-4","col-md-3","col-lg-2")
                 }
+                
             }
             let a_list=news_body.getElementsByTagName('a');
             news_body.setAttribute("style","text-align: justify;")
-            news_body.setAttribute("class","me-5")
+            news_body.setAttribute("class","mx-auto me-lg-5")
             for(let i=0;i<a_list.length;i++){
                 if(a_list[i]){
                     a_list[i].href="https://economictimes.indiatimes.com/"+a_list[i].href;
