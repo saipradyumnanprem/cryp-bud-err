@@ -274,8 +274,25 @@ def prices():
 
 def test(request):
     test = Client(API_KEY, API_SECRET)
-    trades = test.get_my_trades(symbol='BTCUSDT')
-    return JsonResponse(trades, safe=False)
+    trades = test.get_klines(symbol='BTCUSDT',interval='1d')
+    final_ans=list()
+    for data in trades:
+        dict1=dict()
+        dict1["Open time"]=data[0]
+        dict1["Open"]=data[1]
+        dict1["High"]=data[2]
+        dict1["Low"]=data[3]
+        dict1["Close"]=data[4]
+        dict1["Volume"]=data[5]
+        dict1["Close time"]=data[6]
+        dict1["Quote asset volume"]=data[7]
+        dict1["Number of trades"]=data[8]
+        dict1["Taker buy base asset volume"]=data[9]
+        dict1["Taker buy quote asset volume"]=data[10]
+        dict1["Can be ignored"]=data[11]
+        final_ans.append(dict1)
+    print(len(final_ans))
+    return JsonResponse(final_ans, safe=False)
 
 
 def balances(request):
@@ -400,3 +417,34 @@ def coinbase_price(request):
     # Get the current price of Bitcoin in USD
     price = data['data']['amount']
     return JsonResponse(data, safe=False)
+
+def user_profile(request):
+
+    context = {
+        'fullname': "Sai Pradyumnan Prem",
+        'username': "saipradyumnan",
+        'email': 'saipradyumnan@gmail.com',
+        'phone': '8309074001',
+        'address': "Hyderabad, Telangana, India",
+        'aadhaar': '317099218688',
+        'pan': "GCIP123456",
+        'taxslab': '<2.5 Lakhs'
+    }
+
+    return render(request, 'Report/user_profile.html', context)
+
+
+def edit_profile(request):
+
+    context = {
+        'fullname': "Sai Pradyumnan Prem",
+        'username': "saipradyumnan",
+        'email': 'saipradyumnan@gmail.com',
+        'phone': '8309074001',
+        'address': "Hyderabad, Telangana, India",
+        'aadhaar': '317099218688',
+        'pan': "GCIP123456",
+        'taxslab': '<2.5 Lakhs'
+    }
+
+    return render(request, 'Report/user_edit.html', context)

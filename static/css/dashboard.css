@@ -110,9 +110,7 @@ body {
   border: 0;
   margin:auto;
 }
-.btn:hover{
-  background-color: #6370e8 !important;
-}
+
 .nav-item.btn-sm{
   background-color: white;
 }
