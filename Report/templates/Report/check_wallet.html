@@ -1,0 +1,29 @@
+{% extends "Report/base.html" %}
+{% load static %}
+{% block style%}
+<style>
+  body {
+    padding-top: 5rem;
+  }
+</style>
+{% endblock style%}
+
+{% block content%}
+<section class="pt-2 d-flex justify-content-center">
+
+  <div class="col-sm-4 mx-auto">
+
+    <div class="text-center">
+      <p class="fs-3">Wallet List</p>
+    </div>
+
+    {% for exchange in exchanges %}
+    <p>Exchange Name: {{ exchange.exchange }}</p>
+    <p>API Key: {{ exchange.api_key }}</p>
+    <p>Secret Key: {{ exchange.secret_key }}</p>
+    {% endfor %}
+
+  </div>
+
+</section>
+{% endblock content %}

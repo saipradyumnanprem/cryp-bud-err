@@ -26,5 +26,6 @@ urlpatterns = [
     path('coinbase_price/', views.coinbase_price, name='coinbase_price'),
     path('user_profile/', views.user_profile, name='user_profile'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
-
+    path('wallet/add_wallet/', views.add_wallet, name='add_wallet'),
+    path('wallet/check_wallet/', views.check_wallet, name='check_wallet'),
 ]

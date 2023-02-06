@@ -1,10 +1,13 @@
+from decimal import Decimal
+from forex_python.converter import CurrencyRates
+from datetime import datetime, timedelta
 from django.http import FileResponse
 from django.template.loader import get_template
 from django.views.generic import View
 from . import utils as ut
 from concurrent.futures import process
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from binance.spot import Spot
 from binance.client import Client
 from django.http import JsonResponse
@@ -17,24 +20,24 @@ import requests
 import pandas as pd
 import os
 from dotenv import load_dotenv
+
+from django.contrib.auth.models import User
+from Home.models import Profile, Wallet
+
 load_dotenv()
-from django.views.generic import View
-from django.template.loader import get_template
-from django.http import FileResponse
-from datetime import datetime, timedelta
-from forex_python.converter import CurrencyRates
-from decimal import Decimal
 
 # from django.http import HttpResponse
 # Create your views here.
+
+
 API_KEY = os.environ['binance_api']
 API_SECRET = os.environ['binance_secret']
 
-client = Spot(API_KEY,API_SECRET)
+client = Spot(API_KEY, API_SECRET)
 
 currency_rates = CurrencyRates()
-#client.API_URL = 'https://testnet.binance.vision/api'
-#def home(request):
+# client.API_URL = 'https://testnet.binance.vision/api'
+# def home(request):
 #    return render(request ,"Report/index.html")
 
 
@@ -49,14 +52,15 @@ def wallet(request):
         'transactions_data': transactions_data
     }
 
-    return render(request, "Report/wallet.html",context)
+    return render(request, "Report/wallet.html", context)
 
 
 def gettrans():
+    client = Spot(API_KEY, API_SECRET)
     transactions_client = Client(API_KEY, API_SECRET)
     info = client.account_snapshot("SPOT")
-    info=info["snapshotVos"][2]["data"]["balances"]
-    transactions_data=[]
+    info = info["snapshotVos"][2]["data"]["balances"]
+    transactions_data = []
     usd_inr = float(currency_rates.get_rate('USD', 'INR'))
     for symbol in info:
         # try:
@@ -70,19 +74,20 @@ def gettrans():
             except:
                 continue
         for data in transactions_data[-1]:
-            data['price']=str(usd_inr*float(data['price']))
-            data['value']=float(data['qty'])*float(data['price'])
-            data['buySell']="Buy" if(data['isBuyer']) else "Sell"
+            data['price'] = str(usd_inr*float(data['price']))
+            data['value'] = float(data['qty'])*float(data['price'])
+            data['buySell'] = "Buy" if (data['isBuyer']) else "Sell"
             try:
                 data['time'] = datetime.fromtimestamp(int(data['time'])/1000)
                 data['time'] = data['time'].strftime("%Y-%m-%d %H:%M:%S")
             except:
                 continue
-    temp_transaction_data=[]
+    temp_transaction_data = []
     for transactions_symbol in transactions_data:
         for data in transactions_symbol:
             temp_transaction_data.append(data)
-    transactions_data=sorted(temp_transaction_data, key=lambda x: datetime.strptime(x['time'], "%Y-%m-%d %H:%M:%S"),reverse=True)
+    transactions_data = sorted(temp_transaction_data, key=lambda x: datetime.strptime(
+        x['time'], "%Y-%m-%d %H:%M:%S"), reverse=True)
     return transactions_data
 
 
@@ -121,16 +126,16 @@ class GeneratePDF(View):
         return HttpResponse("Not found")
 
 
-def tax_calculation():
-    total_tax=0
-    capital=dict()
-    client=Client(API_KEY,API_SECRET)
-    info = Spot(API_KEY,API_SECRET).account_snapshot("SPOT")
-    info=info["snapshotVos"][2]["data"]["balances"]
-    capital["short_gains"]=0
-    capital["long_gains"]=0
-    capital["short_loss"]=0
-    capital["long_loss"]=0
+def tax_calculation(API_KEY, API_SECRET):
+    total_tax = 0
+    capital = dict()
+    client = Client(API_KEY, API_SECRET)
+    info = Spot(API_KEY, API_SECRET).account_snapshot("SPOT")
+    info = info["snapshotVos"][2]["data"]["balances"]
+    capital["short_gains"] = 0
+    capital["long_gains"] = 0
+    capital["short_loss"] = 0
+    capital["long_loss"] = 0
     for symbol in info:
         try:
             trades = client.get_my_trades(symbol=symbol["asset"]+"USDT")
@@ -169,7 +174,8 @@ def tax_calculation():
                 purchase_price = purchase_prices.get(symbol, 0)
                 purchase_date = purchase_dates.get(symbol, datetime.now())
                 gain_loss = (price - purchase_price) * qty
-                holding_period = (datetime.fromtimestamp(timestamp/1000) - purchase_date).days
+                holding_period = (datetime.fromtimestamp(
+                    timestamp/1000) - purchase_date).days
 
                 if holding_period <= SHORT_TERM_CUTOFF:
                     if gain_loss > 0:
@@ -181,25 +187,27 @@ def tax_calculation():
                         long_term_capital_gains += gain_loss
                     else:
                         long_term_capital_losses += gain_loss
-        total_tax+=short_term_capital_gains+long_term_capital_gains
-        capital["short_gains"]+=short_term_capital_gains
-        capital["long_gains"]+=long_term_capital_gains
-        capital["short_loss"]+=short_term_capital_losses
-        capital["long_loss"]+=long_term_capital_losses
+        total_tax += short_term_capital_gains+long_term_capital_gains
+        capital["short_gains"] += short_term_capital_gains
+        capital["long_gains"] += long_term_capital_gains
+        capital["short_loss"] += short_term_capital_losses
+        capital["long_loss"] += long_term_capital_losses
 
-    capital["total_tax"]=total_tax
+    capital["total_tax"] = total_tax
     usd_inr = float(currency_rates.get_rate('USD', 'INR'))
-    capital['short_gains']=usd_inr*capital['short_gains']
-    capital['long_gains']=usd_inr*capital['long_gains']
-    capital['short_loss']=usd_inr*capital['short_loss']
-    capital['long_loss']=usd_inr*capital['long_loss']
-    capital['total_tax']=usd_inr*capital['total_tax']
+    capital['short_gains'] = usd_inr*capital['short_gains']
+    capital['long_gains'] = usd_inr*capital['long_gains']
+    capital['short_loss'] = usd_inr*capital['short_loss']
+    capital['long_loss'] = usd_inr*capital['long_loss']
+    capital['total_tax'] = usd_inr*capital['total_tax']
     return capital
 
 
 def tax_report(request):
-    transactions_data = gettrans()
-    tax_data = tax_calculation()
+
+    transactions_data = gettrans(API_KEY, API_SECRET)
+    tax_data = tax_calculation(API_KEY, API_SECRET)
+
     name = "SAI PRADYUMNAN"
     aadhaar = "317099218688"
     pan = "GCIPP12345"
@@ -207,7 +215,7 @@ def tax_report(request):
         'name': name,
         'aadhaar': aadhaar,
         'pan': pan,
-        'transactions_data':transactions_data,
+        'transactions_data': transactions_data,
         'tax_data': tax_data
     }
     return render(request, "Report/tax_report.html", context)
@@ -231,11 +239,11 @@ def history(request, coin_name=None):
     processed_candlesticks = []
     usd_inr = float(currency_rates.get_rate('USD', 'INR'))
     for data in candlesticks:
-        candlestick = { 
-            "time": (data[0] / 1000)+19800, 
+        candlestick = {
+            "time": (data[0] / 1000)+19800,
             "open": str(usd_inr*float(data[1])),
-            "high": str(usd_inr*float(data[2])), 
-            "low": str(usd_inr*float(data[3])), 
+            "high": str(usd_inr*float(data[2])),
+            "low": str(usd_inr*float(data[3])),
             "close": str(usd_inr*float(data[4]))
         }
         processed_candlesticks.append(candlestick)
@@ -260,8 +268,9 @@ def prices():
     info = []
     for data in processed_info:
         try:
-            price=currency_rates.convert('USD','INR',Decimal(client.ticker_price(data["coinName"]+"USDT")["price"]))
-            info.append({"coinName":data["coinName"],"price":price})
+            price = currency_rates.convert('USD', 'INR', Decimal(
+                client.ticker_price(data["coinName"]+"USDT")["price"]))
+            info.append({"coinName": data["coinName"], "price": price})
         except:
             try:
                 price = client.ticker_price(data["coinName"])["price"]
@@ -274,43 +283,49 @@ def prices():
 
 def test(request):
     test = Client(API_KEY, API_SECRET)
-    trades = test.get_klines(symbol='BTCUSDT',interval='1d')
-    final_ans=list()
+    trades = test.get_klines(symbol='BTCUSDT', interval='1d')
+    final_ans = list()
     for data in trades:
-        dict1=dict()
-        dict1["Open time"]=data[0]
-        dict1["Open"]=data[1]
-        dict1["High"]=data[2]
-        dict1["Low"]=data[3]
-        dict1["Close"]=data[4]
-        dict1["Volume"]=data[5]
-        dict1["Close time"]=data[6]
-        dict1["Quote asset volume"]=data[7]
-        dict1["Number of trades"]=data[8]
-        dict1["Taker buy base asset volume"]=data[9]
-        dict1["Taker buy quote asset volume"]=data[10]
-        dict1["Can be ignored"]=data[11]
+        dict1 = dict()
+        dict1["Open time"] = data[0]
+        dict1["Open"] = data[1]
+        dict1["High"] = data[2]
+        dict1["Low"] = data[3]
+        dict1["Close"] = data[4]
+        dict1["Volume"] = data[5]
+        dict1["Close time"] = data[6]
+        dict1["Quote asset volume"] = data[7]
+        dict1["Number of trades"] = data[8]
+        dict1["Taker buy base asset volume"] = data[9]
+        dict1["Taker buy quote asset volume"] = data[10]
+        dict1["Can be ignored"] = data[11]
         final_ans.append(dict1)
     print(len(final_ans))
     return JsonResponse(final_ans, safe=False)
 
 
 def balances(request):
-    info = client.account_snapshot("SPOT")["snapshotVos"][-2]["data"]["balances"]
-    processed_info=[]
+    info = client.account_snapshot(
+        "SPOT")["snapshotVos"][-2]["data"]["balances"]
+    processed_info = []
     usd_inr = float(currency_rates.get_rate('USD', 'INR'))
-    for i in range(0,len(info)):
-        data=info[i]
-        if(float(data["free"])>0):
+    for i in range(0, len(info)):
+        data = info[i]
+        if (float(data["free"]) > 0):
             try:
-                data["value"]=usd_inr*float(data["free"])*float(client.ticker_price(data["asset"]+"USDT")["price"])
+                data["value"] = usd_inr*float(data["free"])*float(
+                    client.ticker_price(data["asset"]+"USDT")["price"])
             except:
                 data["value"] = -1
             try:
-                data["original_Price"]=usd_inr*float(client.my_trades(symbol=data["asset"]+"USDT")[0]["price"])
-                data["original_Value"]=usd_inr*float(data["free"])*float(data["original_Price"])
-                data["ROI"]=round(((data["value"]-data["original_Value"])/data["original_Value"])*100,2)
-                
+                data["original_Price"] = usd_inr * \
+                    float(client.my_trades(
+                        symbol=data["asset"]+"USDT")[0]["price"])
+                data["original_Value"] = usd_inr * \
+                    float(data["free"])*float(data["original_Price"])
+                data["ROI"] = round(
+                    ((data["value"]-data["original_Value"])/data["original_Value"])*100, 2)
+
             except:
                 data["original_Price"] = 0
                 data["original_Value"] = 0
@@ -418,17 +433,29 @@ def coinbase_price(request):
     price = data['data']['amount']
     return JsonResponse(data, safe=False)
 
+
 def user_profile(request):
 
+    user = request.user
+
+    wal = user.wallet_set.all()
+    wallet_list = []
+    for i in wal.iterator():
+        wallet_list.append(i.exchange.title())
+
+    prof = Profile.objects.filter(user=user)
+    print(prof)
+
     context = {
-        'fullname': "Sai Pradyumnan Prem",
+        'fullname': 'prof.full_name',
         'username': "saipradyumnan",
         'email': 'saipradyumnan@gmail.com',
         'phone': '8309074001',
         'address': "Hyderabad, Telangana, India",
         'aadhaar': '317099218688',
         'pan': "GCIP123456",
-        'taxslab': '<2.5 Lakhs'
+        'taxslab': '<2.5 Lakhs',
+        'wallet_list': wallet_list
     }
 
     return render(request, 'Report/user_profile.html', context)
@@ -448,3 +475,27 @@ def edit_profile(request):
     }
 
     return render(request, 'Report/user_edit.html', context)
+
+
+def add_wallet(request):
+
+    # return redirect('Report/check_wallet')
+    return render(request, 'Report/add_wallet.html')
+
+
+def check_wallet(request):
+
+    if request.method == 'POST':
+        user = request.user
+        exchange_ent = request.POST.get('exchange')
+        api_key_ent = request.POST.get('apikey')
+        secret_key_ent = request.POST.get('secretapikey')
+
+        print(exchange_ent, api_key_ent, secret_key_ent)
+
+        user.wallet_set.create(exchange=exchange_ent,
+                               api_key=api_key_ent, secret_key=secret_key_ent)
+
+    context = {'exchanges': user.wallet_set.all()}
+
+    return render(request, 'Report/check_wallet.html', context)

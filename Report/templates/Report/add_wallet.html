@@ -1,0 +1,55 @@
+{% extends "Report/base.html" %}
+{% load static %}
+{% block style%}
+<style>
+  body {
+    padding-top: 5rem;
+  }
+</style>
+{% endblock style%}
+
+{% block content%}
+<section class="pt-2 d-flex justify-content-center">
+
+  <div class="col-sm-4 mx-auto">
+
+    <div class="text-center">
+      <p class="fs-3">Add A Wallet</p>
+    </div>
+
+    <form class="" method="post" action="{% url 'user_profile' %}">
+      {% csrf_token %}
+
+      <div class="col-xl-12 col-sm-12">
+        <select class="form-select mb-3" name="exchange">
+          <option value="">Select Exchange</option>
+          <option value="binance">Binance</option>
+          <option value="coinbase">Coinbase</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+
+
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="apikey" name="apikey" placeholder="API Key">
+        <label for="apikey">API Key</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="secretapikey" name="secretapikey" placeholder="Secret API Key">
+        <label for="secretapikey">Secret API Key</label>
+      </div>
+
+      <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-secondary">Submit</button>
+      </div>
+
+
+    </form>
+
+
+
+  </div>
+
+</section>
+{% endblock content %}

@@ -41,7 +41,7 @@
             <img src="{% static 'img/crypto-login.png' %}" width="500px" height="500px">
 
          </div>
-         <div class="col-6 d-flex justify-content-center">
+         <div class="col-sm-6 d-flex justify-content-center">
             <form method="POST" action="{% url 'login_page' %}">
                {% csrf_token %}
                {{ form.path }}

@@ -1,0 +1,250 @@
+{% extends 'Report/base.html' %}
+{% load static %}
+{% block style%}
+
+<style>
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
+
+<style>
+  #profile-picture:hover #upload-form {
+    display: block;
+  }
+</style>
+
+{% endblock style%}
+
+{% block content %}
+
+<div
+  class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-1 border-bottom border-4">
+  <h1 class="h2">Edit Profile</h1>
+
+</div>
+
+<section>
+  <div class="container py-3">
+    <form method="post" action="" class="needs-validation" novalidate>
+      {% csrf_token %}
+      <div class="row">
+
+        <div class="col-xl-5">
+
+          <div class="row-lg-8 row-xl-6">
+
+            <div class="mb-4">
+
+              <div class="card" style="border-radius: 15px;">
+                <div class="card-body text-center">
+
+                  <div id="profile-picture">
+                    <img class="rounded-circle"
+                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                      alt="Default Profile Picture" width="200">
+                    <form id="upload-form" method="post" enctype="multipart/form-data" style="display:none;">
+                      {% csrf_token %}
+                      <div class="mt-3">
+                        <input class="form-control" type="file" accept="image/*" name="profilepicture">
+                      </div>
+
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="row-md-6 row-lg-8 mb-4">
+
+            <div class="">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+
+                  <div class="text-center mt-2 mb-4">
+                    <p class="fs-4">KYC Details</p>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-4 mt-2">
+                      <p class="mb-0">Aadhaar</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="number" class="form-control" name="aadhaar" id="validationCustom01"
+                        value="{{ aadhaar }}" required>
+                      <div class="valid-feedback">
+                        Looks good!
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr>
+
+
+                  <div class="row">
+                    <div class="col-sm-4 mt-2">
+                      <p class="mb-0">PAN</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" name="pan" id="validationCustom01" value="{{ pan }}"
+                        required>
+                      <div class="valid-feedback">
+                        Looks good!
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-sm-4 mt-2">
+                      <p class="mb-0">Tax Slab</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <select class="form-select text-center" required>
+                        <option value="0">
+                          < 2.5 Lakhs </option>
+                        <option value="1"> 2.5 - 5 Lakhs</option>
+                        <option value="2"> 5 - 7.5 Lakhs</option>
+                        <option value="3"> 7.5 - 10 Lakhs</option>
+                        <option value="3"> 10 - 12.5 Lakhs</option>
+                        <option value="4"> 12.5 - 15 Lakhs</option>
+                        <option value="5"> > 15 Lakhs</option>
+                      </select>
+                      <div class="valid-feedback">
+                        Looks good!
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="text-center mt-2 mb-4">
+                <p class="fs-4">Personal Details</p>
+              </div>
+              <div class="row">
+                <div class="col-sm-3 mt-2">
+                  <p class="mb-0">Full Name</p>
+                </div>
+                <div class="col-sm-9">
+                  <input type="text" name="name" class="form-control" id="validationCustom01" value="{{ fullname }}"
+                    required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3 mt-2">
+                  <p class="mb-0">Username</p>
+                </div>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="validationCustom01" value="{{ username }}" name="username"
+                    required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3 mt-2">
+                  <p class="mb-0">Email</p>
+                </div>
+                <div class="col-sm-9">
+                  <input type="email" name="email" class="form-control" id="validationCustom01" value="{{ email }}"
+                    required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3 mt-2">
+                  <p class="mb-0">Phone</p>
+                </div>
+                <div class="col-sm-9">
+                  <input type="number" class="form-control" name="phone" id="validationCustom01" value="{{ phone }}"
+                    required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3 mt-2">
+                  <p class="mb-0">Address</p>
+                </div>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="validationCustom01" value="{{ address }}" name="address"
+                    required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="text-center mt-5">
+            <button class="btn btn-secondary" type="submit">Save Changes</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+</section>
+
+
+{% endblock content%}
+
+
+{% block script%}
+
+<script>
+  (() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
+
+<script src="https://kit.fontawesome.com/0c80c45fc5.js" crossorigin="anonymous"></script>
+
+{% endblock script%}
