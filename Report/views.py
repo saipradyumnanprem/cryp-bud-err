@@ -443,18 +443,10 @@ def user_profile(request):
     for i in wal.iterator():
         wallet_list.append(i.exchange.title())
 
-    prof = Profile.objects.filter(user=user)
+    prof = list(Profile.objects.filter(user=user).values())
     print(prof)
 
     context = {
-        'fullname': 'prof.full_name',
-        'username': "saipradyumnan",
-        'email': 'saipradyumnan@gmail.com',
-        'phone': '8309074001',
-        'address': "Hyderabad, Telangana, India",
-        'aadhaar': '317099218688',
-        'pan': "GCIP123456",
-        'taxslab': '<2.5 Lakhs',
         'wallet_list': wallet_list
     }
 
@@ -479,12 +471,6 @@ def edit_profile(request):
 
 def add_wallet(request):
 
-    # return redirect('Report/check_wallet')
-    return render(request, 'Report/add_wallet.html')
-
-
-def check_wallet(request):
-
     if request.method == 'POST':
         user = request.user
         exchange_ent = request.POST.get('exchange')
@@ -495,6 +481,15 @@ def check_wallet(request):
 
         user.wallet_set.create(exchange=exchange_ent,
                                api_key=api_key_ent, secret_key=secret_key_ent)
+
+        return redirect('Report/check_wallet')
+
+    return render(request, 'Report/add_wallet.html')
+
+
+def check_wallet(request):
+
+    user = request.user
 
     context = {'exchanges': user.wallet_set.all()}
 

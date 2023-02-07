@@ -1,10 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from .forms import SignupForm, UserCreationForm, loginForm
+from .forms import SignupForm, UserCreationForm, loginForm, UserUpdateForm, UpdateProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -47,3 +47,25 @@ def signup_page(request):
 def logout_page(request):
     logout(request)
     return redirect("home_page")
+
+
+@login_required
+def details_page(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user, )
+        p_form = UpdateProfileForm(request.POST, 
+                                    request.FILES,
+                                    instance=request.user.profile)
+
+        if u_form.is_valid
+
+    else:
+        u_form = UserUpdateForm(instance=request.user, )
+        p_form = UpdateProfileForm(instance=request.user.profile) 
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+
+    return render(request, "Home/details.html", context)

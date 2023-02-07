@@ -88,7 +88,7 @@
                 <p class="mb-0">Full Name</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-white mb-0">{{ fullname }}</p>
+                <p class="text-white mb-0">{{ user.profile.full_name }}</p>
               </div>
             </div>
             <hr>
@@ -97,7 +97,7 @@
                 <p class="mb-0">Username</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-white mb-0">{{ username }}</p>
+                <p class="text-white mb-0">{{ user.username }}</p>
               </div>
             </div>
             <hr>
@@ -106,7 +106,7 @@
                 <p class="mb-0">Email</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-white mb-0">{{ email }}</p>
+                <p class="text-white mb-0">{{ user.email }}</p>
               </div>
             </div>
             <hr>
@@ -115,7 +115,7 @@
                 <p class="mb-0">Phone</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-white mb-0">(+91) {{ phone }}</p>
+                <p class="text-white mb-0">(+91) {{ user.profile.phone_number }}</p>
               </div>
             </div>
             <hr>
@@ -124,7 +124,7 @@
                 <p class="mb-0">Address</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-white mb-0">{{ address }}</p>
+                <p class="text-white mb-0">{{ user.profile.address }}</p>
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@
                     <p class="mb-0">Aadhaar</p>
                   </div>
                   <div class="col-sm-6">
-                    <p class="text-white mb-0">{{ aadhaar }}</p>
+                    <p class="text-white mb-0">{{ user.profile.aadhaar }}</p>
                   </div>
                 </div>
 
@@ -156,7 +156,7 @@
                     <p class="mb-0">PAN</p>
                   </div>
                   <div class="col-sm-6">
-                    <p class="text-white mb-0">{{ pan }}</p>
+                    <p class="text-white mb-0">{{ user.profile.pan }}</p>
                   </div>
                 </div>
 
@@ -168,7 +168,7 @@
                   </div>
                   <div class="col-sm-6">
                     <p class="text-white mb-0">
-                      {{ taxslab }}</p>
+                      {{ user.profile.tax_slab }}</p>
                   </div>
                 </div>
 

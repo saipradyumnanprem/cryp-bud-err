@@ -42,9 +42,8 @@
                 <div class="card-body text-center">
 
                   <div id="profile-picture">
-                    <img class="rounded-circle"
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                      alt="Default Profile Picture" width="200">
+                    <img class="rounded-circle" src="{{ user.profile.image.url }}" alt="Default Profile Picture"
+                      width="200">
                     <form id="upload-form" method="post" enctype="multipart/form-data" style="display:none;">
                       {% csrf_token %}
                       <div class="mt-3">

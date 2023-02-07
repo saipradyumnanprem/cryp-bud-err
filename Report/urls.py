@@ -2,10 +2,11 @@ from django.urls import path
 from . import views
 from .views import GeneratePDF
 
+
 urlpatterns = [
     # path('', views.home,name='home'),
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('comparison/', views.comparison,name='comparison'),
+    path('comparison/', views.comparison, name='comparison'),
     path('wallet/', views.wallet, name='wallet'),
     path('tax/', views.tax, name='tax'),
     path('foresight/', views.foresight, name='foresight'),
@@ -26,6 +27,7 @@ urlpatterns = [
     path('coinbase_price/', views.coinbase_price, name='coinbase_price'),
     path('user_profile/', views.user_profile, name='user_profile'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
-    path('wallet/add_wallet/', views.add_wallet, name='add_wallet'),
-    path('wallet/check_wallet/', views.check_wallet, name='check_wallet'),
+    path('add_wallet/', views.add_wallet, name='add_wallet'),
+    path('check_wallet/', views.check_wallet, name='check_wallet'),
 ]
+

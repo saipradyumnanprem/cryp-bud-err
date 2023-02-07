@@ -138,11 +138,11 @@
       <div class="col">
         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
           aria-expanded="false">
-          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-            class="rounded-circle img-fluid" width="32px" height="32px">
+          <img src="{{ user.profile.image.url }}" alt="avatar" class="rounded-circle img-fluid" width="32px"
+            height="32px">
         </a>
         <ul class="dropdown-menu text-small">
-          <li><a class="dropdown-item" href="#">User Profile</a></li>
+          <li><a class="dropdown-item" href="{% url 'user_profile' %}">User Profile</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -181,10 +181,10 @@
   <div class="btn-toolbar mb-2 mb-md-0 ms-auto">
     <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle px-2 text-center" type="button" data-bs-toggle="dropdown"
-        aria-expanded="false" onclick="selectCoin()">
+        aria-expanded="false" onclick="selectCoin()" id="toggle">
         BTC
       </button>
-      <ul class="dropdown-menu coins-listr">
+      <ul class="dropdown-menu" id="coins-listr">
         <!--<li><a class="dropdown-item" href="#">Action</a></li> For Reference -->
       </ul>
     </div>
@@ -449,14 +449,14 @@
   fetch('http://127.0.0.1:8000/report/coins/')
     .then((r) => r.json())
     .then((response) => {
-      let dropdown_menu = document.getElementsByClassName("coins-listr");
+      let dropdown_menu = document.getElementById("coins-listr"); console.log(dropdown_menu);
       for (let i = 0; i < response.length; i++) {
         let link = document.createElement("li");
         let a_tag = document.createElement("a");
         a_tag.innerText = response[i];
         a_tag.classList.add("dropdown-item");
         a_tag.onclick = function () {
-          let dropdown_toggle = document.getElementsByClassName("dropdown-toggle")[0];
+          let dropdown_toggle = document.getElementById("toggle");
           dropdown_toggle.innerText = a_tag.innerText;
           history_url = 'http://127.0.0.1:8000/report/history/' + a_tag.innerText;
           socketUrl = 'wss://stream.binance.com:9443/ws/' + a_tag.innerText.toLowerCase();
@@ -493,7 +493,7 @@
 
         }
         link.append(a_tag);
-        dropdown_menu[0].append(link);
+        dropdown_menu.append(link);
       }
 
 

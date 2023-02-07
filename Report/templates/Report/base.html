@@ -151,11 +151,11 @@
               <div class="col-xs-2 pb-0 mb-0">
                 <div class="card mb-3 border-0 pb-0">
                   <div class="card-body text-center pb-0 mb-0">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                      class="rounded-circle img-fluid" style="width: 100px;">
-                    <h5 class="my-1">John Smith</h5>
-                    <p class="text-muted mb-1">Full Stack Developer</p>
-                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                    <img src="{{ user.profile.image.url }}" alt="avatar" class="rounded-circle img-fluid"
+                      style="width: 100px;">
+                    <h5 class="my-1">{{ user.profile.full_name }}</h5>
+                    <p class="text-muted mb-1">{{ user.email }}</p>
+                    <p class="text-muted mb-0">{{ user.profile.address }}</p>
                   </div>
                 </div>
               </div>
