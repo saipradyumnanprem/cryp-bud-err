@@ -37,7 +37,7 @@ def signup_page(request):
             new_user.save()
             if new_user is not None:
                 login(request, new_user)
-                return redirect("dashboard")
+                return redirect("details_page")
     else:
         form = SignupForm()
     context = {"form": form}
@@ -53,15 +53,19 @@ def logout_page(request):
 def details_page(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user, )
-        p_form = UpdateProfileForm(request.POST, 
-                                    request.FILES,
-                                    instance=request.user.profile)
+        p_form = UpdateProfileForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
 
-        if u_form.is_valid
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            return redirect("user_profile")
 
     else:
-        u_form = UserUpdateForm(instance=request.user, )
-        p_form = UpdateProfileForm(instance=request.user.profile) 
+
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = UpdateProfileForm(instance=request.user.profile)
 
     context = {
         'u_form': u_form,

@@ -23,6 +23,8 @@ from dotenv import load_dotenv
 
 from django.contrib.auth.models import User
 from Home.models import Profile, Wallet
+from django.contrib.auth.decorators import login_required
+from Home.forms import UserUpdateForm, UpdateProfileForm
 
 load_dotenv()
 
@@ -444,7 +446,6 @@ def user_profile(request):
         wallet_list.append(i.exchange.title())
 
     prof = list(Profile.objects.filter(user=user).values())
-    print(prof)
 
     context = {
         'wallet_list': wallet_list
@@ -453,17 +454,27 @@ def user_profile(request):
     return render(request, 'Report/user_profile.html', context)
 
 
+@login_required
 def edit_profile(request):
 
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user, )
+        p_form = UpdateProfileForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            return redirect("user_profile")
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = UpdateProfileForm(instance=request.user.profile)
+
     context = {
-        'fullname': "Sai Pradyumnan Prem",
-        'username': "saipradyumnan",
-        'email': 'saipradyumnan@gmail.com',
-        'phone': '8309074001',
-        'address': "Hyderabad, Telangana, India",
-        'aadhaar': '317099218688',
-        'pan': "GCIP123456",
-        'taxslab': '<2.5 Lakhs'
+        'u_form': u_form,
+        'p_form': p_form
     }
 
     return render(request, 'Report/user_edit.html', context)
@@ -476,8 +487,6 @@ def add_wallet(request):
         exchange_ent = request.POST.get('exchange')
         api_key_ent = request.POST.get('apikey')
         secret_key_ent = request.POST.get('secretapikey')
-
-        print(exchange_ent, api_key_ent, secret_key_ent)
 
         user.wallet_set.create(exchange=exchange_ent,
                                api_key=api_key_ent, secret_key=secret_key_ent)

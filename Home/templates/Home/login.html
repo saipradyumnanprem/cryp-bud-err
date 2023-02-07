@@ -42,7 +42,7 @@
 
          </div>
          <div class="col-sm-6 d-flex justify-content-center">
-            <form method="POST" action="{% url 'login_page' %}">
+            <form method="POST" action="{% url 'dashboard' %}">
                {% csrf_token %}
                {{ form.path }}
                <a href="{% url 'home_page' %}">
